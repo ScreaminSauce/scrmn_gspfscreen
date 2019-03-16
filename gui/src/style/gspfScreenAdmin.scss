@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background-color:whitesmoke;
+}
+
+.main-content {
+    margin-top: 5rem;
+}
+
+.divider {
+    margin: 2rem 0 2rem 0;
+}
+
+.create-announcement{
+    * {
+        margin-right:15px;
+    }
+}
+
+.edit-announcement-Informational {
+    background-color:darkseagreen !important;
+}
+
+.edit-announcement-Warning {
+    background-color:goldenrod !important;
+}
+
+.edit-announcement-Urgent {
+    background-color:darksalmon !important;
+}
