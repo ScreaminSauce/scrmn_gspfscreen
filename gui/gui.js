@@ -39,8 +39,8 @@ class GuiBuilder {
                 new CleanWebpackPlugin(),
                 new CopyWebpackPlugin([{
                     loglevel: 'debug',
-                    from: __dirname + '/static/**',
-                    context: 'gui/static'
+                    from: path.resolve(__dirname + '/static' ) + '/**',
+                    context: path.resolve(__dirname + '/static')
                 }]),
                 new MiniCssExtractPlugin()
             ]
