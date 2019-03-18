@@ -68,21 +68,21 @@ module.exports = Vue.component('announcements-main', {
     <div class="main-content">
         <h1>Announcements</h1>
         <hr class="divider"/>
+        <h4>Create Announcement</h4>
         <div class="create-announcement">
-            <h4>Create Announcement</h4>
-            <select id="annType" class="col-2" v-model="newAnnouncement.type">
+            <select id="annType" v-model="newAnnouncement.type">
                 <option v-for="type in annTypes" v-bind:value="type.name">{{type.name}}</option>
             </select>
-            <input id="annMessage" type="text" class="col-8" v-model="newAnnouncement.message">
-            <button class="col-1 btn btn-primary" v-on:click="createAnnouncement">Save</button>
+            <input id="annMessage" type="text" v-model="newAnnouncement.message">
+            <button class="btn btn-primary" v-on:click="createAnnouncement">Save</button>
         </div>
         <hr class="divider"/>
-        <table class="table table-striped">
+        <table class="table table-striped mt-2">
             <thead>
                 <tr>
-                    <th class="col-md-2">Type</th>
-                    <th class="col-md-8">Message</th>
-                    <th class="col-md-2">Actions</th>
+                    <th style="width:100px;">Type</th>
+                    <th>Message</th>
+                    <th style="width:155px;">Actions</th>
                 </tr>
             </thead>
             <tbody>

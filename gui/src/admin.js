@@ -19,6 +19,9 @@ module.exports = new Vue({
             return this.currentTab;
         }
     },
+    mounted: function(){
+
+    },
     methods: {
         onLogoutClicked: function(){
             axios.post(window.location.origin + "/api/auth/logout")
@@ -32,12 +35,8 @@ module.exports = new Vue({
     },
     template: ` 
         <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
                 <a class="navbar-brand" href="#">GSPF Dashboard</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item" v-on:click="currentTab='announcements'">
                         <a class="nav-link">Announcements</a>
@@ -48,7 +47,6 @@ module.exports = new Vue({
                 </ul>
                 <div class="form-inline my-2 my-lg-0">
                     <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="onLogoutClicked">Logout</button>
-                </div>
                 </div>
             </nav>
             <component
