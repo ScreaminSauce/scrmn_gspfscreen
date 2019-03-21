@@ -1,7 +1,7 @@
 const Vue = require('vue/dist/vue');
 const axios = require('axios');
-const annViewCmpnt = require('./annView-cmpnt');
-const annEditCmpnt = require('./annEdit-cmpnt');
+const annViewCmpnt = require('./annView');
+const annEditCmpnt = require('./annEdit');
 
 module.exports = Vue.component('announcements-main', {
     data: function(){

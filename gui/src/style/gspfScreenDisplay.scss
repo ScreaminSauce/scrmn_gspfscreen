@@ -1,157 +1,204 @@
 @import "~bootstrap/scss/bootstrap";
 
+html,
 body {
-    font-family: 'Cairo', sans-serif;
+    height: 1080px;
+    width: 1920px;
 }
 
-.main-content {
+.upcomingevents-main {
+    font-family: 'Cairo', sans-serif;
     /* background: rgba(0, 0, 0, 0.9); */
     background-image: url("../../static/images/StarTrek-Landscape.jpg");
     /* background-image:url("/public/scrmn_gspfscreen/images/AcDc-Landscape.jpg"); */
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
-    height: 1080px;
-    width: 1920px;
-    border: 1px solid black;
-}
-
-.sideInfo {
-    background: rgba(0, 0, 0, 0.9);
-    overflow-y: hidden;
-    border-radius: 5px;
-    width: 300px;
-    height: 925px;
-    float: left;
-    margin: 25px 0 25px 25px;
     display: flex;
     flex-direction: column;
+    height:100%;
 
-    .eventItem {
-        margin: 0 20px 0 20px;
-        border-bottom: 3px solid slategray;
-        padding: 10px;
-        text-align: center;
-        color: white;
-        align-items: center;
-    }
-}
-
-.active-event {
-    background-color: rgba(26, 100, 210, 0.6);
-}
-
-.spacer {
-    flex: 1 1;
-}
-
-.header {
-    background: rgba(0, 0, 0, 0.9);
-    color: white;
-    border-radius: 5px;
-    height: 200px;
-    margin: 25px 25px 25px 350px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 20px;
-
-    .title {
-        margin-left: 50px;
-        border-left: 3px solid slategray;
-        padding: 10px 50px 10px 10px;
-        text-align: center;
-        color: #ffd800;
-        font-size: 4rem;
-
-    }
-
-    .date-time {
-        color: white;
-        border-left: 3px solid slategray;
-        padding: 10px;
+    .main-body {
+        flex: 1 0 auto;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+
+        .sidebar {
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.9);
+            overflow-y: hidden;
+            border-radius: 5px;
+            max-width: 300px;
+            margin: 25px 0 25px 25px;
+
+            .eventItem {
+                h1 {
+                    font-size: 2.25rem;
+                }
+                margin: 0 20px 0 20px;
+                border-bottom: 3px solid slategray;
+                padding: 10px;
+                text-align: center;
+                color: white;
+                align-items: center;
+            }
+
+            .active-event {
+                background-color: rgba(26, 100, 210, 0.6);
+            }
+        }
+
+        .content {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-radius: 5px;
+            margin: 25px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            color: white;
+
+            .header {
+                flex: 0 0 auto;
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                border-radius: 5px;
+                
+                .title {
+                    margin-left: 50px;
+                    border-left: 3px solid slategray;
+                    padding: 10px 50px 10px 10px;
+                    text-align: center;
+                    color: #ffd800;
+                    font-size: 4rem;
+                }
+
+                .date-time {
+                    color: white;
+                    border-left: 3px solid slategray;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 20px;
+
+                    .date {
+                        font-size: 2rem;
+                    }
+
+                    .time {
+                        font-size: 4rem;
+                    }
+                }
+            }
+
+            .content-body {
+                flex: 1 1 auto;
+                width: 100%;
+
+                .content-header {
+                    text-align: center;
+                    font-size: 3rem;
+                    border-bottom: 3px solid slategray;
+                }
+    
+                .content-description {
+                    font-size: 3rem;
+                    padding: 50px;
+                }
+            }
+        }
+    }
+
+    .spacer {
+        flex: 1 1;
+    }
+
+    .footer {
+        flex:0 1 auto;
+        display: flex;
+        flex-direction: row;
         align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
 
-        .date {
-            font-size: 2rem;
-        }
-
-        .time {
-            font-size: 4rem;
-        }
-    }
-}
-
-.content {
-    border-radius: 5px;
-    height: 700px;
-    margin: 25px 25px 25px 350px;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-
-    .content-header {
-        text-align: center;
-        font-size: 3rem;
-        border-bottom: 3px solid slategray;
-    }
-
-    .content-description {
-        font-size: 3rem;
-        padding: 50px;
-    }
-}
-
-.announcements-ticker {
-    background-color: black;
-    padding-right: 15px;
-    border-radius: 5px;
-    color: white;
-    height: 65px;
-    line-height: 45px;
-    width: 1870px;
-    margin: 0 25px 0 25px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    .announcement {
-        padding-left: 15px;
-        margin-left: 15px;
-        background-color: rgba(26, 100, 210, 0.9);
-        color: white;
-        flex: 1 0;
-        font-size: 35px;
-        font-weight: bold;
+        background-color: black;
+        padding-right: 15px;
         border-radius: 5px;
-        display: flex;
+        color: white;
+        line-height: 45px;;
+        margin: 0 25px 15px 25px;
 
-        .annMessage {
+        .announcement {
+            padding-left: 15px;
+            margin-left: 15px;
+            background-color: rgba(26, 100, 210, 0.9);
+            color: white;
             flex: 1 0;
-            padding-left: 20px;
-            margin: 2px 2px 2px 30px;
             font-size: 35px;
-        }
+            font-weight: bold;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
 
-        .annInformational {
-            background-color: #1b9b44;
-            color: white;
-        }
+            .annMessage {
+                flex: 1 0;
+                padding-left: 20px;
+                margin: 2px 2px 2px 30px;
+                font-size: 35px;
+                overflow-y: hidden;
+            }
 
-        .annUrgent {
-            background-color: #8c1919;
-            color: white;
-        }
+            .annInformational {
+                background-color: #1b9b44;
+                color: white;
+            }
 
-        .annWarning {
-            background-color: #ffd800;
-            color: black;
+            .annUrgent {
+                background-color: #8c1919;
+                color: white;
+            }
+
+            .annWarning {
+                background-color: #ffd800;
+                color: black;
+            }
+        }
+    }
+}
+
+.sponsors-main {
+    font-family: 'Cairo', sans-serif;
+    // background-image: url("../../static/images/StarTrek-Landscape.jpg");
+    background-image:url("../../static/images/AcDc-Landscape.jpg");
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+    .header {
+        flex: 0 1 auto;
+        margin: 15px;
+        padding: 20px;
+        border-radius: 5px;
+        background-color:rgba(0, 0, 0, 0.9);
+        text-align: center;
+        font-size: 5rem;
+        color: goldenrod;
+    }
+
+    .sponsor-images {
+        flex: 1 0 auto;
+        background-color:rgba(0, 0, 0, 0.9);
+        border-radius: 5px;
+        margin: 0 15px 15px 15px;
+
+        img {
+            margin: 20px;
         }
     }
 }

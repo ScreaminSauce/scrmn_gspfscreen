@@ -1,7 +1,7 @@
 const Vue = require('vue/dist/vue');
 const moment = require('moment');
 
-module.exports = Vue.component('event-item', {
+module.exports = Vue.component('upcoming-event', {
     props: {
         event: Object
     },

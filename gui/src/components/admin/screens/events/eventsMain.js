@@ -2,8 +2,8 @@ const Vue = require('vue/dist/vue');
 const _ = require('lodash');
 const axios = require('axios');
 const moment = require('moment');
-const eventsEditCmpnt = require('./eventsEdit-cmpnt');
-const eventsViewCmpnt = require('./eventsView-cmpnt');
+const eventsEditCmpnt = require('./eventsEdit');
+const eventsViewCmpnt = require('./eventsView');
 
 module.exports = Vue.component('events-main', {
     data: function() {

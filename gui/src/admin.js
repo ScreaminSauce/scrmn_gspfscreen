@@ -1,9 +1,11 @@
 'use strict';
 const axios = require('axios');
-const myCss = require('./style/gspfScreenAdmin.scss');
-const annMainCmpnt = require('./components/admin/annMain-cmpnt');
-const eventsMainCmpnt = require('./components/admin/eventsMain-cmpnt');
 const Vue = require('vue/dist/vue');
+
+//Used for webpack bundling and component registration.
+const myCss = require('./style/gspfScreenAdmin.scss');
+const annMainCmpnt = require('./components/admin/screens/announcements/annMain');
+const eventsMainCmpnt = require('./components/admin/screens/events/eventsMain');
 
 module.exports = new Vue({
     el: "#app",
@@ -14,13 +16,7 @@ module.exports = new Vue({
     computed: {
         currentTabComponent: function () {
             return this.currentTab.toLowerCase() + "-main"
-        },
-        activeTab: function(){
-            return this.currentTab;
         }
-    },
-    mounted: function(){
-
     },
     methods: {
         onLogoutClicked: function(){

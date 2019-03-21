@@ -1,0 +1,15 @@
+{
+    "name":"default",
+    "displayOrder": [
+        {
+            "displayName":"Upcoming Events",
+            "componentName": "upcomingevents-main",
+            "durationInSeconds": "60"
+        },
+        {
+            "displayName":"Sponsors",
+            "componentName": "sponsors-main",
+            "durationInSeconds": "20"
+        }
+    ]
+}

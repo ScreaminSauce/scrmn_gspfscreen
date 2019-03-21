@@ -1,158 +1,73 @@
 'use strict';
-const axios = require('axios');
 const Vue = require('vue/dist/vue');
-const moment = require('moment');
+const axios = require('axios');
 const myCss = require('./style/gspfScreenDisplay.scss');
-const annItemCmpnt = require('./components/display/annItem-cmpnt');
-const eventItemCmpnt = require('./components/display/eventItem-cmpnt');
+
+
+//Current Screens created are loaded here - Required here for webpack to load 'em
+const upcomingEventsMain = require('./components/display/screens/upcomingEvents/upcomingEventsMain');
+const sponsorsMain = require('./components/display/screens/sponsors/sponsorsMain');
 
 module.exports = new Vue({
     el: "#app",
-    data: function(){
+    data: function () {
         return {
-            events: [],
-            activeEventIdx: 0,
-            activeEvent: {},
-            announcements: [],
-            activeAnnIdx: 0,
-            activeAnn: {},
-            time: String,
-            date: moment().format("dddd, MMM Mo")
+            currentDisplayCmpnt: String,
         }
     },
-    computed: {
-        contentDisplayTime: function(){
-            return moment(this.activeEvent.startTime).format("ddd, h:mm a");
-        },
-        annClassObj: function(){
-             return {
-                 annMessage: true,
-                 annInformational: this.activeAnn.type == "Informational",
-                 annWarning: this.activeAnn.type == "Warning",
-                 annUrgent: this.activeAnn.type == "Urgent",
-             }
-        }
-    },
-    mounted: function(){
-        this.fetchDisplayConfig()
-            .then((config)=>{
-                this.displayConfig = config;
-                return this.updateEvents();
-            })        
-            .then(()=>{
-                return this.updateAnnouncements();
-            })
-            .then(()=>{
+    mounted: function () {
+        this.fetchScreenConfig("default")
+            .then((config) => {
+                this.displayOrder = config.displayOrder;
+                // this.displayOrder = [{componentName:"sponsors-main", durationInSeconds:60}];
                 return this.startDaMachine();
             })
-            .catch((err)=>{
+            .catch((err) => {
                 console.log("Error starting display.js", err);
             })
     },
     methods: {
-        fetchDisplayConfig: function(){
-            return Promise.resolve({
-                announcements:{interval: 10000},
-                events: {interval: 5000},
-                screens: {interval: 60000}
-            })
-        },
-        updateEvents: function(){
-            return axios.get(window.location.origin + "/api/gspfscreen/events")
-                .then((results)=>{
-                    let totalEventsToDisplay = 6;
-                    let totalAdded = 0;
-                    results.data.forEach((evt)=>{
-                        let cdate = moment();
-                        let evtdate = moment(evt.startTime);
-                        if (cdate < evtdate && (totalAdded < totalEventsToDisplay)){
-                            this.events.push(evt)
-                            totalAdded = totalAdded + 1;
-                        }
-                    })
+        fetchScreenConfig: function () {
+            return axios.get(window.location.origin + "/api/gspfscreen/screenConfig/default")
+                .then((result)=>{
+                    return result.data;
                 })
                 .catch((err)=>{
-                    console.log("Error getting events.", err);
+                    console.log("Error retrieving screen configuration.", err);
                 })
         },
-        updateAnnouncements: function(){
-            return axios.get(window.location.origin + "/api/gspfscreen/announcements")
-                .then((results)=>{
-                    results.data.forEach((evt)=>{this.announcements.push(evt)})
-                })
-                .catch((err)=>{
-                    console.log("Error getting announcements.", err);
-                })
-        },
-        updateTime: function(){
-            this.time =  moment().format("h:mm a")
-        },
-        findNextIdx: function(list, currentIdx){
-            if (currentIdx == (list.length - 1)){
+        findNextIdx: function (list, currentIdx) {
+            if (currentIdx == (list.length - 1)) {
                 return 0;
             } else {
                 return currentIdx + 1;
             }
         },
-        setNextActiveEvent: function(){
-            this.$refs.evtList[this.activeEventIdx].setActive(false);
-            this.activeEventIdx = this.findNextIdx(this.events, this.activeEventIdx);
-            this.activeEvent = this.events[this.activeEventIdx];            
-            this.$refs.evtList[this.activeEventIdx].setActive(true);        
-        },
-        setNextActiveAnnouncement: function(){
-            this.activeAnnIdx = this.findNextIdx(this.announcements, this.activeAnnIdx);
-            this.activeAnn = this.announcements[this.activeAnnIdx];    
-        },
-        startDaMachine: function(){
-            this.updateTime();
-            
-            //Events
-            if (this.events.length > 0){
-                this.activeEvent = this.events[this.activeEventIdx];            
-                this.$refs.evtList[this.activeEventIdx].setActive(true);        
-                setInterval(this.setNextActiveEvent, this.displayConfig.events.interval);
-            }
-           
-            //Announcements
-            if (this.announcements.length > 0){
-                this.activeAnn = this.announcements[this.activeAnnIdx];
-                setInterval(this.setNextActiveAnnouncement, this.displayConfig.announcements.interval);
-            }
-            
-            setTimeout(function(){
-                window.location.reload();
-            }, this.displayConfig.screens.interval);
-
+        startDaMachine: function () {
             console.log("Da machine has been started!");
-            return Promise.resolve();
+            if (this.displayOrder.length > 1) {
+                this.loadNextScreen(this.displayOrder[0], this.displayOrder[1]);
+            } else if (this.displayOrder.length == 1) {
+                this.currentDisplayCmpnt = this.displayOrder[0].componentName;
+                setTimeout(function(){
+                    window.location.reload();
+                }, this.displayOrder[0].durationInSeconds * 1000);
+            } else {
+                console.log("What kinda game you playing? No screens are set!");
+            }
+        },
+        loadNextScreen: function (fromObj, toObj) {
+            if (fromObj == toObj) {
+                window.location.reload();
+            } else {
+                this.currentDisplayCmpnt = fromObj.componentName;
+                setTimeout(() => {
+                    this.loadNextScreen(toObj, this.displayOrder[this.findNextIdx(this.displayOrder, this.displayOrder.indexOf(toObj))])
+                }, fromObj.durationInSeconds * 1000)
+            }
         }
     },
     template: `
-    <div class="main-content">
-        <div class="sideInfo">
-            <event-item ref="evtList" v-for="evt in events" :key="evt._id" :event="evt"></event-item>
-            <div class="spacer"></div>
-        </div>
-        <div class="header">
-            <div><img src="images/gspflogosm.jpg" style="width:175px;height:175px;"></div>
-            <div class="title">Upcoming Events</div>
-            <div class="spacer"></div>
-            <div class="date-time">
-                <div class="date">{{date}}</div>
-                <div class="time">{{time}}</div>
-            </div>
-        </div>
-        <div class="content">
-            <div class="content-header"><div>{{activeEvent.name}}</div><div>{{activeEvent.location}} - {{contentDisplayTime}}</div></div>
-            <div class="content-description">{{activeEvent.description}}</div>
-        </div>
-        <div class="announcements-ticker">
-            <div class="announcement">
-                <span>Announcements</span>
-                <span v-bind:class="annClassObj">{{activeAnn.message}}</span>
-            </div>
-        </div>
-    </div>
+        <component v-bind:is="currentDisplayCmpnt"></component>
     `
 })
