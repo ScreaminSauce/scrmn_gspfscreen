@@ -3,6 +3,7 @@ const _ = require('lodash');
 const Joi = require('joi');
 const Boom = require('boom');
 const ObjectId = require('mongodb').ObjectID;
+const moment = require('moment');
 
 module.exports = (logger, basePath, dbConns)=>{
     let collection = 'events';
@@ -19,7 +20,10 @@ module.exports = (logger, basePath, dbConns)=>{
                             logger.error({error: err}, "Error retrieving document");
                             throw new Boom.internal("Error retrieving documents")
                         }
-                        return resolve(docs);
+                        let result = docs.sort(function(objA, objB){
+                            return moment.utc(objA.startTime).diff(moment.utc(objB.startTime))
+                        })
+                        resolve(result);
                     })
                 })
             },
@@ -98,7 +102,7 @@ module.exports = (logger, basePath, dbConns)=>{
             path: basePath + "/events",
             handler: (request, h)=>{
                 let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling PUT /events");
+                logger.info("Calling DELETE /events");
                 return new Promise((resolve, reject)=>{
                     db.collection(collection).findOneAndDelete({"_id":ObjectId(request.payload._id)}, (err, results)=>{
                         if (err){

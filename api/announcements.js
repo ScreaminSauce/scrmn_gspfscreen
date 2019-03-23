@@ -94,7 +94,7 @@ module.exports = (logger, basePath, dbConns)=>{
                 return new Promise((resolve, reject)=>{
                     db.collection(collection).findOneAndDelete({"_id":ObjectId(request.payload._id)}, (err, results)=>{
                         if (err){
-                            logger.error({error: err}, "Error Deleting thing.")
+                            logger.error({error: err}, "Error Deleting announcement.")
                             throw new Boom.internal("Not found?");
                         }
                         return resolve(results);

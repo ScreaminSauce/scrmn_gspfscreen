@@ -138,7 +138,7 @@ module.exports = Vue.component('upcomingevents-main', {
                 </div>
                 <div class="content">
                     <div class="header">
-                        <div><img src="images/gspflogosm.jpg" style="width:175px;height:175px;"></div>
+                        <div><img src="images/gspflogosm.jpg" style="width:100px;height:100px;"></div>
                         <div class="title">Upcoming Events</div>
                         <div class="spacer"></div>
                         <div class="date-time">
@@ -152,7 +152,7 @@ module.exports = Vue.component('upcomingevents-main', {
                     </div>
                 </div>            
             </div>
-            <div class="footer">
+            <div v-if="announcements.length > 0" class="footer">
                 <div class="announcement">
                     <div>Announcements</div>
                     <div v-bind:class="annClassObj">{{activeAnn.message}}</div>

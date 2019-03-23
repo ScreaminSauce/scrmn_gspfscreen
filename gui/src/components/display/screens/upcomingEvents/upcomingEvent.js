@@ -21,6 +21,9 @@ module.exports = Vue.component('upcoming-event', {
         }
     },
     template: `
-        <div class="eventItem" v-bind:class="{ 'active-event': isActive }"><h1>{{displayTime}}</h1><h3>{{event.name}}</h3></div>
+        <div class="eventItem" v-bind:class="{ 'active-event': isActive }">
+            <div>{{displayTime}}</div>
+            <div>{{event.name}}</div>
+        </div>
     `
 })

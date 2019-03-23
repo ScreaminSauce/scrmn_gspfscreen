@@ -22,7 +22,7 @@ module.exports = Vue.component('sponsors-main', {
         <div class="sponsors-main">
             <div class="header">2019 Golden State Pinball Festival Sponsors</div>
             <div class="sponsor-images">
-                <img v-for="image in images" :key="image" v-bind:src="image">
+                <div v-for="image in images" :key="image"><img v-bind:src="image"></div>
             </div>
         </div>`
 })

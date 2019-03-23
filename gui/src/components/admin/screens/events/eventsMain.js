@@ -58,7 +58,6 @@ module.exports = Vue.component('events-main', {
                 })
         },
         deleteEvent: function(index){
-            console.log("Deleting: ", this.events[index]);
             return axios.delete(window.location.origin + '/api/gspfscreen/events', {data: { "_id": this.events[index]._id}})
                 .then((result)=>{
                     this.events.splice(index, 1);
