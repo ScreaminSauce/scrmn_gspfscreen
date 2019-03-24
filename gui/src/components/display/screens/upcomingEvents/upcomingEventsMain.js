@@ -152,8 +152,8 @@ module.exports = Vue.component('upcomingevents-main', {
                     </div>
                 </div>            
             </div>
-            <div v-if="announcements.length > 0" class="footer">
-                <div class="announcement">
+            <div class="footer">
+                <div v-if="announcements.length > 0" class="announcement">
                     <div>Announcements</div>
                     <div v-bind:class="annClassObj">{{activeAnn.message}}</div>
                 </div>
