@@ -59,7 +59,7 @@ module.exports = Vue.component('upcomingevents-main', {
                     let totalAdded = 0;
                     results.data.forEach((evt)=>{
                         let cdate = moment();
-                        let evtdate = moment(evt.startTime);
+                        let evtdate = moment(evt.startTime).add(15, 'minutes');
                         if (cdate < evtdate && (totalAdded < totalEventsToDisplay)){
                             this.events.push(evt)
                             totalAdded = totalAdded + 1;
@@ -80,7 +80,7 @@ module.exports = Vue.component('upcomingevents-main', {
                 })
         },
         updateTime: function(){
-            this.time =  moment().format("h:mm a")
+            this.time =  moment(Date.now()).format("h:mm a")
         },
         findNextIdx: function(list, currentIdx){
             if (currentIdx == (list.length - 1)){
