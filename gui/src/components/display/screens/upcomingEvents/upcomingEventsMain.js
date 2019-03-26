@@ -11,9 +11,7 @@ module.exports = Vue.component('upcomingevents-main', {
             activeEvent: {},
             announcements: [],
             activeAnnIdx: 0,
-            activeAnn: {},
-            time: String,
-            date: String
+            activeAnn: {}
         }
     },
     computed: {
@@ -27,6 +25,16 @@ module.exports = Vue.component('upcomingevents-main', {
                  annWarning: this.activeAnn.type == "Warning",
                  annUrgent: this.activeAnn.type == "Urgent",
              }
+        },
+        date: function(){
+            let date = moment().format("dddd, MMM Do");
+            console.log(date);
+            return date;
+        },
+        time: function(){
+            let time = moment().local().format("h:mm a");
+            console.log(time);
+            return time;
         }
     },
     mounted: function(){
@@ -79,11 +87,6 @@ module.exports = Vue.component('upcomingevents-main', {
                     console.log("Error getting announcements.", err);
                 })
         },
-        updateTime: function(){
-            console.log("This is the time:", moment().format('dddd, MMMM Do YYYY, h:mm:ss a'))
-            this.date = moment().format("dddd, MMM Mo")
-            this.time = moment().format("h:mm a")
-        },
         findNextIdx: function(list, currentIdx){
             if (currentIdx == (list.length - 1)){
                 return 0;
@@ -102,7 +105,6 @@ module.exports = Vue.component('upcomingevents-main', {
             this.activeAnn = this.announcements[this.activeAnnIdx];    
         },
         startEventMachine: function(){
-            this.updateTime();
             
             //Events
             if (this.events.length > 0){
