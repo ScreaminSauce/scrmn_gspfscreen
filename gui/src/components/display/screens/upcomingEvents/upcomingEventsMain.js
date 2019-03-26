@@ -13,7 +13,7 @@ module.exports = Vue.component('upcomingevents-main', {
             activeAnnIdx: 0,
             activeAnn: {},
             time: String,
-            date: moment().format("dddd, MMM Mo")
+            date: String
         }
     },
     computed: {
@@ -80,7 +80,9 @@ module.exports = Vue.component('upcomingevents-main', {
                 })
         },
         updateTime: function(){
-            this.time =  moment(Date.now()).format("h:mm a")
+            console.log("This is the time:", moment().format('dddd, MMMM Do YYYY, h:mm:ss a'))
+            this.date = moment().format("dddd, MMM Mo")
+            this.time = moment().format("h:mm a")
         },
         findNextIdx: function(list, currentIdx){
             if (currentIdx == (list.length - 1)){
