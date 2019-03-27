@@ -29,7 +29,17 @@ module.exports = new Vue({
                 })
         }
     },
-    template: ` 
+    mounted: function(){
+        axios.get(window.location.origin + "/api/auth/myUser")
+            .then(()=>{
+                //We are good to go.
+            })
+            .catch((err)=>{
+                console.log("Error retreiving user info", err);
+                window.location = window.location.origin + "/public/auth/index.html";
+            })
+    },
+    template: `
         <div class="container-fluid">
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
                 <a class="navbar-brand" href="#">GSPF Dashboard</a>

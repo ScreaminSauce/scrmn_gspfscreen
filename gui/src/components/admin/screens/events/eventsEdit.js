@@ -56,7 +56,7 @@ module.exports = Vue.component('events-edit', {
             let dayOfWeek = currentTime.format('dddd');
             this.day = this.eventDays.find((obj)=>{return obj.value == dayOfWeek});
             
-            this.hour = currentTime.format('hh');
+            this.hour = currentTime.format('HH');
             this.minute = currentTime.format('mm');
         }
     },

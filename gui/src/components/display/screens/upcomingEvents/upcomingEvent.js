@@ -1,5 +1,5 @@
 const Vue = require('vue/dist/vue');
-const moment = require('moment');
+const momentTz = require('moment');
 
 module.exports = Vue.component('upcoming-event', {
     props: {
@@ -12,7 +12,7 @@ module.exports = Vue.component('upcoming-event', {
     },
     computed: {
         displayTime: function(){
-            return moment(this.event.startTime).format("ddd, h:mm a")
+            return momentTz(this.event.startTime).tz("America/Los_Angeles").format("ddd, h:mm a");
         }
     },
     methods:{

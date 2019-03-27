@@ -1,5 +1,6 @@
 const Vue = require('vue/dist/vue');
-const moment = require('moment-timezone');
+const moment = require('moment');
+const momentTz = require('moment-timezone')
 const axios = require('axios');
 const upcomingEventCmpnt = require('./upcomingEvent');
 
@@ -16,7 +17,7 @@ module.exports = Vue.component('upcomingevents-main', {
     },
     computed: {
         contentDisplayTime: function(){
-            return moment(this.activeEvent.startTime).format("ddd, h:mm a");
+            return momentTz(this.activeEvent.startTime).tz("America/Los_Angeles").format("ddd, h:mm a");
         },
         annClassObj: function(){
              return {
@@ -27,11 +28,11 @@ module.exports = Vue.component('upcomingevents-main', {
              }
         },
         date: function(){
-            let date = moment().format("dddd, MMM Do");
+            let date = momentTz().tz("America/Los_Angeles").format("dddd, MMM Do");
             return date;
         },
         time: function(){
-            let time = moment().tz("America/Los_Angeles").format("h:mm a");
+            let time = momentTz().tz("America/Los_Angeles").format("h:mm a");
             return time;
         }
     },
