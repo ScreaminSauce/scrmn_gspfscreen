@@ -150,8 +150,14 @@ module.exports = Vue.component('upcomingevents-main', {
                         </div>
                     </div>
                     <div class="content-body">
-                        <div class="content-header"><div>{{activeEvent.name}}</div><div>{{activeEvent.location}} - {{contentDisplayTime}}</div></div>
-                        <div class="content-description">{{activeEvent.description}}</div>
+                        <div class="content-header">
+                            <div>{{activeEvent.name}}</div>
+                            <div>{{activeEvent.location}} - {{contentDisplayTime}}</div>
+                        </div>
+                        <div class="content-description">
+                            <img class="event-image" v-if="activeEvent.imageUrl" v-bind:src="activeEvent.imageUrl"></img>    
+                            {{activeEvent.description}}
+                        </div>
                     </div>
                 </div>            
             </div>

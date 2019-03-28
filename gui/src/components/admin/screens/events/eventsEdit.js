@@ -27,7 +27,8 @@ module.exports = Vue.component('events-edit', {
                 startTime: this.startTime,
                 location: this.editedEvent.location || "",
                 description: this.editedEvent.description || "",
-                presenter: this.editedEvent.presenter || ""
+                presenter: this.editedEvent.presenter || "",
+                imageUrl: this.editedEvent.imageUrl || ""
             }
 
             return axios.put(window.location.origin + '/api/gspfscreen/events', data)
@@ -38,6 +39,7 @@ module.exports = Vue.component('events-edit', {
                     this.event.location = result.data.location;
                     this.event.presenter = result.data.presenter;
                     this.event.description = result.data.description;
+                    this.event.imageUrl = result.data.imageUrl;
                     this.initializeView();
                     this.$emit('cancel-event');
                 })
@@ -65,7 +67,7 @@ module.exports = Vue.component('events-edit', {
     },
     template: `
     <tr class="editRow" style="background-color:dimgrey; ">
-        <td colspan=5>
+        <td colspan=6>
             <div class="form-row">
                 <div class="form-group col-md-2">
                     <select class="form-control" v-model="day">
@@ -73,10 +75,10 @@ module.exports = Vue.component('events-edit', {
                     </select>
                 </div>
                 <div class="form-group col-md-1">
-                <input type="text" class="form-control"  placeholder="Hour" v-model="hour">
+                    <input type="text" class="form-control"  placeholder="Hour" v-model="hour">
                 </div>
                 <div class="form-group col-md-1">
-                <input type="text" class="form-control"  placeholder="Minute" v-model="minute">
+                    <input type="text" class="form-control"  placeholder="Minute" v-model="minute">
                 </div>
                 <div class="form-group col-md-4">
                     <input type="text" class="form-control"  placeholder="Event Name" v-model="editedEvent.name">
@@ -86,13 +88,15 @@ module.exports = Vue.component('events-edit', {
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-8">
-                <input type="text" class="form-control"  placeholder="Description" v-model="editedEvent.description">
+                <div class="form-group col-md-5">
+                    <input type="text" class="form-control"  placeholder="Description" v-model="editedEvent.description">
+                </div>
+                <div class="form-group col-md-5">
+                    <input type="text" class="form-control"  placeholder="Image Url" v-model="editedEvent.imageUrl">
                 </div>
                 <div class="form-group col-md-2">
-                <input type="text" class="form-control"  placeholder="Presenter" v-model="editedEvent.presenter">
+                    <input type="text" class="form-control"  placeholder="Presenter" v-model="editedEvent.presenter">
                 </div>
-                
             </div>
         </td>
         <td>

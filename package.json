@@ -1,6 +1,6 @@
 {
   "name": "@screaminsauce/scrmn_gspfscreen",
-  "version": "0.0.14",
+  "version": "1.0.0",
   "description": "A module used for displaying informational screens for the GSPF.",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "webpack": "^4.29.4"
   },
   "devDependencies": {
-    "@screaminsauce/screaminserver": "0.X.X",
-    "@screaminsauce/scrmn_auth": "0.X.X"
+    "@screaminsauce/screaminserver": "^1.0.0",
+    "@screaminsauce/scrmn_auth": "^1.0.0"
   }
 }

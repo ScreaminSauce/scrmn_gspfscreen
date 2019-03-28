@@ -19,7 +19,7 @@ module.exports = new Vue({
     },
     methods: {
         changeTab: function(tabName){
-            this.currentTab = tabName
+            this.currentTab = tabName;
         },
         onLogoutClicked: function(){
             axios.post(window.location.origin + "/api/auth/logout")
@@ -40,7 +40,7 @@ module.exports = new Vue({
                 //We are good to go.
             })
             .catch((err)=>{
-                console.log("Error retreiving user info", err);
+                console.log("Error retreiving user info: ", err);
                 window.location = window.location.origin + "/public/auth/index.html";
             })
     },

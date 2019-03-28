@@ -25,11 +25,12 @@ module.exports = Vue.component('events-view', {
         <td>{{event.location}}</td>
         <td>{{event.description}}</td>
         <td>{{event.presenter}}</td>
+        <td class="text-nowrap text-truncate table-imageurl">{{event.imageUrl}}</td>
         <td class="form-row">
-                <div class="form-group">
-                    <button class="btn btn-primary" v-on:click="onEditButtonClicked">Edit</button>
-                    <button class="btn btn-danger" v-on:click="onDeleteButtonClicked">Delete</button>
-                </div>
+            <div class="form-group">
+                <button class="btn btn-danger" v-on:click="onDeleteButtonClicked">Delete</button>    
+                <button class="btn btn-primary" v-on:click="onEditButtonClicked">Edit</button>
+            </div>
         </td>
     </tr>
     `

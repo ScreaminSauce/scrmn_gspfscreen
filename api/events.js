@@ -54,7 +54,8 @@ module.exports = (logger, basePath, dbConns)=>{
                         startTime: Joi.date().required(),
                         location: Joi.string().allow('').optional(),
                         description: Joi.string().allow('').optional(),
-                        presenter: Joi.string().allow('').optional()
+                        presenter: Joi.string().allow('').optional(),
+                        imageUrl: Joi.string().optional()
                     }
                 }
             }
@@ -72,7 +73,8 @@ module.exports = (logger, basePath, dbConns)=>{
                             "startTime": request.payload.startTime,
                             "location": request.payload.location,
                             "description": request.payload.description,
-                            "presenter": request.payload.presenter
+                            "presenter": request.payload.presenter,
+                            "imageUrl": request.payload.imageUrl
                         }
                     }
                     db.collection(collection).findOneAndUpdate({"_id":ObjectId(request.payload._id)}, ops, {returnOriginal: false}, (err, results)=>{
@@ -92,7 +94,8 @@ module.exports = (logger, basePath, dbConns)=>{
                         startTime: Joi.date().required(),
                         location: Joi.string().allow('').optional(),
                         description: Joi.string().allow('').optional(),
-                        presenter: Joi.string().allow('').optional()
+                        presenter: Joi.string().allow('').optional(),
+                        imageUrl: Joi.string().optional()
                     }
                 }
             }

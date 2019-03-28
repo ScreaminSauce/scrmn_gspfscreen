@@ -48,12 +48,19 @@ class GuiBuilder {
     }
 
     getAppInfo(){
-        return {
+        return [{
             urlPath: "/public/gspfscreen/admin.html",
             icon: '/public/gspfscreen/images/gspflogosm.jpg',
-            name: "GSPF Screens",
+            regName: "gspfscreen-admin",
+            displayName: "GSPF Screen Admin",
             description: "The admin application for the display screens at the GSPF"
-        }
+        },{
+            urlPath: "/public/gspfscreen/display.html",
+            icon: '/public/gspfscreen/images/screenDisplay.png',
+            regName: "gspfscreen-display",
+            displayName: "GSPF Screen Display",
+            description: "A quick way to preview the TV Screen content"
+        }]
     }
 
     build(logger) {

@@ -82,7 +82,7 @@ module.exports = Vue.component('announcements-main', {
                 <tr>
                     <th style="width:100px;">Type</th>
                     <th>Message</th>
-                    <th style="width:155px;">Actions</th>
+                    <th style="width:200px;">Actions</th>
                 </tr>
             </thead>
             <tbody>

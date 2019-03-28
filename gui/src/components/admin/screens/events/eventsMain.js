@@ -115,10 +115,15 @@ module.exports = Vue.component('events-main', {
         </div>
         <div class="form-row">
             <div class="form-group col-md-9">
-            <input type="text" class="form-control"  placeholder="Description" v-model="newEvent.description">
+                <input type="text" class="form-control"  placeholder="Description" v-model="newEvent.description">
             </div>
             <div class="form-group col-md-2">
-            <input type="text" class="form-control"  placeholder="Presenter" v-model="newEvent.presenter">
+                <input type="text" class="form-control"  placeholder="Presenter" v-model="newEvent.presenter">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-11">
+                <input type="text" class="form-control"  placeholder="Image Url" v-model="newEvent.imageUrl">
             </div>
             <div class="form-group col-md-1">
                 <button class="btn btn-primary" v-on:click="createEvent">Save</button>
@@ -130,12 +135,13 @@ module.exports = Vue.component('events-main', {
             <table class="table table-hover table-dark">
                 <thead>
                     <tr>
-                    <th scope="col">Time</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Location</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Presenter</th>
-                    <th scope="col" width="200">Actions</th>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Description</th>
+                    <th>Presenter</th>
+                    <th>ImageUrl</th>
+                    <th width="200">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
