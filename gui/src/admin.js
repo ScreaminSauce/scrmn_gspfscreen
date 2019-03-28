@@ -10,15 +10,17 @@ const eventsMainCmpnt = require('./components/admin/screens/events/eventsMain');
 module.exports = new Vue({
     el: "#app",
     data: {
-        currentTab: "Announcements",
-        tabs: ['Announcements', 'Events']
+        currentTab: "announcements"
     },
     computed: {
         currentTabComponent: function () {
-            return this.currentTab.toLowerCase() + "-main"
+            return this.currentTab + "-main";
         }
     },
     methods: {
+        changeTab: function(tabName){
+            this.currentTab = tabName
+        },
         onLogoutClicked: function(){
             axios.post(window.location.origin + "/api/auth/logout")
                 .then(()=>{
@@ -27,6 +29,9 @@ module.exports = new Vue({
                 .catch((err)=>{
                     console.log("Error logging out: ", err);
                 })
+        },
+        openDisplayInTab: function(){
+            window.open(window.location.origin + "/public/gspfscreen/display.html", "_blank");
         }
     },
     mounted: function(){
@@ -42,16 +47,17 @@ module.exports = new Vue({
     template: `
         <div class="container-fluid">
             <nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-                <a class="navbar-brand" href="#">GSPF Dashboard</a>
+                <a class="navbar-brand" href="#">GSPF Display Dashboard</a>
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item" v-on:click="currentTab='announcements'">
+                    <li class="nav-item" v-bind:class="{active: currentTab=='announcements'}" v-on:click="changeTab('announcements')">
                         <a class="nav-link">Announcements</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" v-on:click="currentTab='events'">Events</a>
+                    <li class="nav-item" v-bind:class="{active: currentTab=='events'}">
+                        <a class="nav-link" v-on:click="changeTab('events')">Events</a>
                     </li>
                 </ul>
-                <div class="form-inline my-2 my-lg-0">
+                <div>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" v-on:click="openDisplayInTab">Preview Display</button>    
                     <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="onLogoutClicked">Logout</button>
                 </div>
             </nav>

@@ -93,6 +93,7 @@ module.exports = Vue.component('events-main', {
     },
     template: `
     <div class="main-content container-fluid">
+        <h4>Create Event</h4>
         <div class="form-row">
             <div class="form-group col-md-2">
                 <select class="form-control" v-model="newEvent.day">
@@ -124,6 +125,7 @@ module.exports = Vue.component('events-main', {
             </div>
         </div>
         <hr/>
+        <h4 class="divider">Manage Events</h4>
         <div style="margin-top:50px;">
             <table class="table table-hover table-dark">
                 <thead>

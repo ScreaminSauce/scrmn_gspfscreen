@@ -2,6 +2,7 @@ const Vue = require('vue/dist/vue');
 const axios = require('axios');
 const annViewCmpnt = require('./annView');
 const annEditCmpnt = require('./annEdit');
+const _ = require('lodash');
 
 module.exports = Vue.component('announcements-main', {
     data: function(){
@@ -37,7 +38,6 @@ module.exports = Vue.component('announcements-main', {
                 })
         },
         deleteAnnouncement: function(index){
-            console.log("Deleting: ", this.announcements[index]);
             return axios.delete(window.location.origin + '/api/gspfscreen/announcements', {data: { "_id": this.announcements[index]._id}})
                 .then((result)=>{
                     this.announcements.splice(index, 1);
@@ -54,20 +54,19 @@ module.exports = Vue.component('announcements-main', {
             this.selectedEditId = this.announcements[index]._id;
         },
         createAnnouncement: function(){
-            console.log("Creating announcement", this.newAnnouncement);
-            axios.post(window.location.origin + '/api/gspfscreen/announcements', this.newAnnouncement)
+            if (! _.isEmpty(this.newAnnouncement.message.trim())){
+                axios.post(window.location.origin + '/api/gspfscreen/announcements', this.newAnnouncement)
                 .then((result)=>{
                     this.announcements.push(result.data);
                 })
                 .catch((err)=>{
                     console.log(err);
                 })
+            }
         }
     },
     template: `
-    <div class="main-content">
-        <h1>Announcements</h1>
-        <hr class="divider"/>
+    <div class="main-content container-fluid">
         <h4>Create Announcement</h4>
         <div class="create-announcement">
             <select id="annType" v-model="newAnnouncement.type">
@@ -77,6 +76,7 @@ module.exports = Vue.component('announcements-main', {
             <button class="btn btn-primary" v-on:click="createAnnouncement">Save</button>
         </div>
         <hr class="divider"/>
+        <h4>Manage Announcements</h4>
         <table class="table table-striped mt-2">
             <thead>
                 <tr>

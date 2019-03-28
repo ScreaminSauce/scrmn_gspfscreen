@@ -30,6 +30,11 @@ body {
     }
 }
 
+.nav-item {
+    border-left: 2px solid gray;
+    cursor: pointer;
+}
+
 .edit-announcement-Informational {
     background-color:darkseagreen !important;
 }
