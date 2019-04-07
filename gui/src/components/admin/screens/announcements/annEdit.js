@@ -1,6 +1,7 @@
+'use strict';
+const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
 const _ = require('lodash');
-const axios = require('axios');
 
 module.exports = Vue.component('announcement-edit', {
     props: {
@@ -38,10 +39,15 @@ module.exports = Vue.component('announcement-edit', {
     `,
     methods: {
         onSaveButtonClicked: function(){
-            return axios.put(window.location.origin + '/api/gspfscreen/announcements', this.editedAnnouncement)
+            let toBeSaved = {
+                type: this.editedAnnouncement.type,
+                message: this.editedAnnouncement.message
+            }
+
+            ClientLib.updateAnnouncement(this.editedAnnouncement._id, toBeSaved)
                 .then((result)=>{
-                    this.announcement.type = result.data.type;
-                    this.announcement.message = result.data.message;
+                    this.announcement.type = result.type;
+                    this.announcement.message = result.message;
                     this.$emit('cancel-announcement');
                 })
                 .catch((err)=>{

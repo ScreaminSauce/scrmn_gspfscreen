@@ -68,6 +68,11 @@ body {
                 background: rgba(0, 0, 0, 0.9);
                 color: white;
                 border-radius: 5px;
+
+                .gspf-header-image {
+                    height: 100px;
+                    width: 100px;
+                }
                 
                 .title {
                     margin-left: 50px;

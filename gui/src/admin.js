@@ -1,5 +1,5 @@
 'use strict';
-const axios = require('axios');
+const ClientLib = require('../lib/clientLib');
 const Vue = require('vue/dist/vue');
 
 //Used for webpack bundling and component registration.
@@ -22,26 +22,25 @@ module.exports = new Vue({
             this.currentTab = tabName;
         },
         onLogoutClicked: function(){
-            axios.post(window.location.origin + "/api/auth/logout")
+            ClientLib.logout()
                 .then(()=>{
-                    window.location = window.location.origin + "/public/auth/index.html";
+                    window.location = ClientLib.AUTHENTICATION_URL;
                 })
                 .catch((err)=>{
                     console.log("Error logging out: ", err);
                 })
         },
         openDisplayInTab: function(){
-            window.open(window.location.origin + "/public/gspfscreen/display.html", "_blank");
+            window.open(ClientLib.DISPLAY_PREVIEW_URL, "_blank");
+        },
+        onAppsButtonClicked: function(){
+            window.location = ClientLib.APPLICATION_URL;
         }
     },
     mounted: function(){
-        axios.get(window.location.origin + "/api/auth/myUser")
-            .then(()=>{
-                //We are good to go.
-            })
-            .catch((err)=>{
-                console.log("Error retreiving user info: ", err);
-                window.location = window.location.origin + "/public/auth/index.html";
+        ClientLib.getMyUser()
+            .catch(()=>{
+                window.location = ClientLib.AUTHENTICATION_URL;
             })
     },
     template: `
@@ -57,6 +56,7 @@ module.exports = new Vue({
                     </li>
                 </ul>
                 <div>
+                    <button class="btn btn-outline-primary my-2 my-sm-0" v-on:click="onAppsButtonClicked">Back to Apps</button>
                     <button class="btn btn-outline-primary my-2 my-sm-0" v-on:click="openDisplayInTab">Preview Display</button>    
                     <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="onLogoutClicked">Logout</button>
                 </div>

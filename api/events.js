@@ -1,31 +1,30 @@
 'use strict';
-const _ = require('lodash');
 const Joi = require('joi');
 const Boom = require('boom');
-const ObjectId = require('mongodb').ObjectID;
-const moment = require('moment');
+const EventsLib = require('./lib/eventsLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let collection = 'events';
+    let callEventsLib = function(methodName, onError, ...args){
+        let db = dbConns.getConnection('gspfscreen');
+        let eLib = new EventsLib(logger, db);
+        return eLib[methodName].call(eLib, ...args)
+            .catch((err)=>{
+                if (onError){
+                    return onError(err);
+                } else {
+                    console.log(err);
+                    logger.error({error:err, methodName: methodName});
+                    Boom.internal("Error calling eventsLib." + methodName);
+                }
+            })
+    }
+
     return [
         {
             method: 'GET',
             path: basePath + "/events",
             handler: (request, h) => {
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling GET /events");
-                return new Promise((resolve, reject)=>{
-                    db.collection(collection).find({}).toArray((err, docs)=>{
-                        if (err){ 
-                            logger.error({error: err}, "Error retrieving document");
-                            throw new Boom.internal("Error retrieving documents")
-                        }
-                        let result = docs.sort(function(objA, objB){
-                            return moment.utc(objA.startTime).diff(moment.utc(objB.startTime))
-                        })
-                        resolve(result);
-                    })
-                })
+                return callEventsLib("getAllEvents", null);
             },
             config: {
                 auth: false
@@ -35,17 +34,7 @@ module.exports = (logger, basePath, dbConns)=>{
             method: "POST",
             path: basePath + "/events",
             handler: (request, h)=>{
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling POST /events");
-                return new Promise((resolve, reject)=>{
-                    db.collection(collection).insertOne(request.payload, (err, results)=>{
-                        if (err){
-                            logger.error({error: err}, "Error inserting document");
-                            throw new Boom.internal("Error inserting document");
-                        }
-                        return resolve(results.ops[0]);
-                    })
-                })
+                return callEventsLib("createEvent", null, request.payload);
             },
             config: {
                 validate: {
@@ -62,63 +51,36 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "PUT",
-            path: basePath + "/events",
+            path: basePath + "/events/event/id/{id}",
             handler: (request, h)=>{
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling PUT /events");
-                return new Promise((resolve, reject)=>{
-                    let ops = {
-                        "$set":{
-                            "name": request.payload.name,
-                            "startTime": request.payload.startTime,
-                            "location": request.payload.location,
-                            "description": request.payload.description,
-                            "presenter": request.payload.presenter,
-                            "imageUrl": request.payload.imageUrl
-                        }
-                    }
-                    db.collection(collection).findOneAndUpdate({"_id":ObjectId(request.payload._id)}, ops, {returnOriginal: false}, (err, results)=>{
-                        if (err){
-                            throw new Boom.internal("Not found?");
-                        }
-                        return resolve(results.value);
-                    })
-
-                })
+                return callEventsLib("updateEvent", null, request.params.id, request.payload);
             },
             config: {
                 validate: {
+                    params: {
+                        id: Joi.string().required()
+                    },
                     payload: {
-                        _id: Joi.string().required(),
                         name: Joi.string().required(),
                         startTime: Joi.date().required(),
                         location: Joi.string().allow('').optional(),
                         description: Joi.string().allow('').optional(),
                         presenter: Joi.string().allow('').optional(),
-                        imageUrl: Joi.string().optional()
+                        imageUrl: Joi.string().allow('').optional()
                     }
                 }
             }
         },
         {
             method: "DELETE",
-            path: basePath + "/events",
+            path: basePath + "/events/event/id/{id}",
             handler: (request, h)=>{
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling DELETE /events");
-                return new Promise((resolve, reject)=>{
-                    db.collection(collection).findOneAndDelete({"_id":ObjectId(request.payload._id)}, (err, results)=>{
-                        if (err){
-                            throw new Boom.internal("Not found?");
-                        }
-                        return resolve(results);
-                    })
-                })
+                return callEventsLib("deleteEvent", null, request.params.id);
             },
             config: {
                 validate: {
-                    payload: {
-                        _id: Joi.string().required()
+                    params: {
+                        id: Joi.string().required()
                     }
                 }
             }

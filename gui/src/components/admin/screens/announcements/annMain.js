@@ -1,8 +1,8 @@
+'use strict';
+const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
-const axios = require('axios');
 const annViewCmpnt = require('./annView');
 const annEditCmpnt = require('./annEdit');
-const _ = require('lodash');
 
 module.exports = Vue.component('announcements-main', {
     data: function(){
@@ -29,17 +29,14 @@ module.exports = Vue.component('announcements-main', {
     },
     methods: {
         fetchAnnouncements: function(){
-            return axios.get('/api/gspfscreen/announcements')
-                .then((results)=>{
-                    return results.data;
-                })
+            return ClientLib.getAnnouncements()
                 .catch((err)=>{
                     console.log("Error getting announcement list: ", err);
                 })
         },
         deleteAnnouncement: function(index){
-            return axios.delete(window.location.origin + '/api/gspfscreen/announcements', {data: { "_id": this.announcements[index]._id}})
-                .then((result)=>{
+            ClientLib.deleteAnnouncement(this.announcements[index]._id)
+                .then(()=>{
                     this.announcements.splice(index, 1);
                     this.selectedEditId = "";
                 })
@@ -54,15 +51,13 @@ module.exports = Vue.component('announcements-main', {
             this.selectedEditId = this.announcements[index]._id;
         },
         createAnnouncement: function(){
-            if (! _.isEmpty(this.newAnnouncement.message.trim())){
-                axios.post(window.location.origin + '/api/gspfscreen/announcements', this.newAnnouncement)
+            ClientLib.createAnnouncement(this.newAnnouncement)
                 .then((result)=>{
-                    this.announcements.push(result.data);
+                    this.announcements.push(result);
                 })
                 .catch((err)=>{
                     console.log(err);
                 })
-            }
         }
     },
     template: `
@@ -80,9 +75,9 @@ module.exports = Vue.component('announcements-main', {
         <table class="table table-striped mt-2">
             <thead>
                 <tr>
-                    <th style="width:100px;">Type</th>
+                    <th class="ann-table-type-header">Type</th>
                     <th>Message</th>
-                    <th style="width:200px;">Actions</th>
+                    <th class="ann-table-type-actions">Actions</th>
                 </tr>
             </thead>
             <tbody>

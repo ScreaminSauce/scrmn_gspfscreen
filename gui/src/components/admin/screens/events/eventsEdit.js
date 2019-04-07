@@ -1,6 +1,7 @@
+'use strict';
+const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
 const _ = require('lodash');
-const axios = require('axios');
 const moment = require('moment');
 
 module.exports = Vue.component('events-edit', {
@@ -22,7 +23,6 @@ module.exports = Vue.component('events-edit', {
     methods: {
         onSaveButtonClicked: function(){
             let data = {
-                _id: this.editedEvent._id,
                 name: this.editedEvent.name,
                 startTime: this.startTime,
                 location: this.editedEvent.location || "",
@@ -31,15 +31,14 @@ module.exports = Vue.component('events-edit', {
                 imageUrl: this.editedEvent.imageUrl || ""
             }
 
-            return axios.put(window.location.origin + '/api/gspfscreen/events', data)
+            ClientLib.updateEvent(this.editedEvent._id, data)
                 .then((result)=>{
-                    console.log(result.data);
-                    this.event.startTime = result.data.startTime;
-                    this.event.name = result.data.name;
-                    this.event.location = result.data.location;
-                    this.event.presenter = result.data.presenter;
-                    this.event.description = result.data.description;
-                    this.event.imageUrl = result.data.imageUrl;
+                    this.event.startTime = result.startTime;
+                    this.event.name = result.name;
+                    this.event.location = result.location;
+                    this.event.presenter = result.presenter;
+                    this.event.description = result.description;
+                    this.event.imageUrl = result.imageUrl;
                     this.initializeView();
                     this.$emit('cancel-event');
                 })
@@ -51,7 +50,6 @@ module.exports = Vue.component('events-edit', {
             this.$emit('cancel-event');
         },
         initializeView: function(){
-            
             this.editedEvent = _.cloneDeep(this.event);
             let currentTime = moment(this.editedEvent.startTime);
 
@@ -66,7 +64,7 @@ module.exports = Vue.component('events-edit', {
         this.initializeView();
     },
     template: `
-    <tr class="editRow" style="background-color:dimgrey; ">
+    <tr class="event-edit-row">
         <td colspan=6>
             <div class="form-row">
                 <div class="form-group col-md-2">

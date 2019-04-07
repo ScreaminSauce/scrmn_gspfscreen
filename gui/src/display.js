@@ -1,8 +1,7 @@
 'use strict';
+const ClientLib = require('../lib/clientLib');
 const Vue = require('vue/dist/vue');
-const axios = require('axios');
 const myCss = require('./style/gspfScreenDisplay.scss');
-
 
 //Current Screens created are loaded here - Required here for webpack to load 'em
 const upcomingEventsMain = require('./components/display/screens/upcomingEvents/upcomingEventsMain');
@@ -28,10 +27,7 @@ module.exports = new Vue({
     },
     methods: {
         fetchScreenConfig: function () {
-            return axios.get(window.location.origin + "/api/gspfscreen/screenConfig/default")
-                .then((result)=>{
-                    return result.data;
-                })
+            return ClientLib.getScreenConfig()
                 .catch((err)=>{
                     console.log("Error retrieving screen configuration.", err);
                 })

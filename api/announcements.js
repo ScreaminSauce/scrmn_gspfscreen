@@ -1,27 +1,30 @@
 'use strict';
-const _ = require('lodash');
 const Joi = require('joi');
 const Boom = require('boom');
-const ObjectId = require('mongodb').ObjectID;
+const AnnLib = require('./lib/announcementsLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let collection = 'announcements';
+    let callAnnouncementsLib = function(methodName, onError, ...args){
+        let db = dbConns.getConnection('gspfscreen');
+        let aLib = new AnnLib(logger, db);
+        return aLib[methodName].call(aLib, ...args)
+            .catch((err)=>{
+                if (onError){
+                    return onError(err);
+                } else {
+                    console.log(err);
+                    logger.error({error:err, methodName: methodName});
+                    Boom.internal("Error calling announcementsLib." + methodName);
+                }
+            })
+    }
+
     return [
         {
             method: 'GET',
             path: basePath + "/announcements",
             handler: (request, h) => {
-                logger.info("Calling GET /announcements");
-                let db = dbConns.getConnection("gspfscreen");
-                return new Promise((resolve, reject)=>{
-                    db.collection(collection).find({}).toArray((err, docs)=>{
-                        if (err){ 
-                            logger.error({error: err}, "Error retrieving document");
-                            throw new Boom.internal("Error retrieving documents")
-                        }
-                        return resolve(docs);
-                    })
-                })
+                return callAnnouncementsLib("getAllAnnouncements", null);
             },
             config: {
                 auth: false
@@ -31,18 +34,7 @@ module.exports = (logger, basePath, dbConns)=>{
             method: "POST",
             path: basePath + "/announcements",
             handler: (request, h)=>{
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling POST /announcements");
-
-                return new Promise((resolve, reject)=>{
-                    db.collection(collection).insertOne(request.payload, (err, results)=>{
-                        if (err){
-                            logger.error({error: err}, "Error inserting document");
-                            throw new Boom.internal("Error inserting document");
-                        }
-                        return resolve(results.ops[0]);
-                    })
-                })
+                return callAnnouncementsLib("createAnnouncement", null, request.payload);
             },
             config: {
                 validate: {
@@ -55,30 +47,16 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "PUT",
-            path: basePath + "/announcements",
+            path: basePath + "/announcements/announcement/id/{id}",
             handler: (request, h)=>{
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling PUT /announcements");
-                return new Promise((resolve, reject)=>{
-                    let ops = {
-                        "$set":{
-                            "type": request.payload.type,
-                            "message": request.payload.message
-                        }
-                    }
-                    db.collection(collection).findOneAndUpdate({"_id":ObjectId(request.payload._id)}, ops, {returnOriginal: false}, (err, results)=>{
-                        if (err){
-                            throw new Boom.internal();
-                        }
-                        return resolve(results.value);
-                    })
-
-                })
+                return callAnnouncementsLib("updateAnnouncement", null, request.params.id, request.payload)
             },
             config: {
                 validate: {
+                    params: {
+                        id: Joi.string().required()
+                    },
                     payload: {
-                        _id: Joi.string().required(),
                         message: Joi.string().required(),
                         type: Joi.string().required()
                     }
@@ -87,24 +65,14 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "DELETE",
-            path: basePath + "/announcements",
+            path: basePath + "/announcements/announcement/id/{id}",
             handler: (request, h)=>{
-                let db = dbConns.getConnection("gspfscreen");
-                logger.info("Calling DELETE /announcements");
-                return new Promise((resolve, reject)=>{
-                    db.collection(collection).findOneAndDelete({"_id":ObjectId(request.payload._id)}, (err, results)=>{
-                        if (err){
-                            logger.error({error: err}, "Error Deleting announcement.")
-                            throw new Boom.internal("Not found?");
-                        }
-                        return resolve(results);
-                    })
-                })
+                return callAnnouncementsLib("deleteAnnouncement", null, request.params.id);
             },
             config: {
                 validate: {
-                    payload: {
-                        _id: Joi.string().required()
+                    params: {
+                        id: Joi.string().required()
                     }
                 }
             }

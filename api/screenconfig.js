@@ -10,7 +10,6 @@ module.exports = (logger, basePath, dbConns)=>{
             method: 'GET',
             path: basePath + "/availableScreens",
             handler: (request, h) => {
-                logger.info("Calling GET /availableScreens");
                 //TODO - Collection for available screens? Have them self register?
                 return Promise.resolve([
                     {
@@ -33,7 +32,6 @@ module.exports = (logger, basePath, dbConns)=>{
             method: 'GET',
             path: basePath + "/screenConfig",
             handler: (request, h) => {
-                logger.info("Calling GET /screenConfig");
                 let db = dbConns.getConnection("gspfscreen");
                 return new Promise((resolve, reject)=>{
                     db.collection(collection).find({}).toArray((err, docs)=>{
@@ -53,7 +51,6 @@ module.exports = (logger, basePath, dbConns)=>{
             method: 'GET',
             path: basePath + "/screenConfig/{name}",
             handler: (request, h) => {
-                logger.info("Calling GET /screenConfig/{name}");
                 let db = dbConns.getConnection("gspfscreen");
                 return new Promise((resolve, reject)=>{
                     db.collection(collection).find({name: request.params.name}).toArray((err, docs)=>{
@@ -78,7 +75,6 @@ module.exports = (logger, basePath, dbConns)=>{
             method: 'PUT',
             path: basePath + "/screenConfig",
             handler: (request, h) => {
-                logger.info("Calling PUT /announcements");
                 let db = dbConns.getConnection("gspfscreen");
                 return new Promise((resolve, reject)=>{
                     let ops = {

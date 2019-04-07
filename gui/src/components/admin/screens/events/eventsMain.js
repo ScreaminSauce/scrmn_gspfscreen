@@ -1,6 +1,6 @@
+'use strict';
+const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
-const _ = require('lodash');
-const axios = require('axios');
 const moment = require('moment');
 const eventsEditCmpnt = require('./eventsEdit');
 const eventsViewCmpnt = require('./eventsView');
@@ -48,18 +48,14 @@ module.exports = Vue.component('events-main', {
     },
     methods: {
         fetchEvents: function(){
-            return axios.get(window.location.origin + "/api/gspfscreen/events")
-                .then((results)=>{
-                    console.log(results.data);
-                    return results.data;
-                })
+            return ClientLib.getEvents()
                 .catch((err)=>{
                     console.log("Error getting events", err);
                 })
         },
         deleteEvent: function(index){
-            return axios.delete(window.location.origin + '/api/gspfscreen/events', {data: { "_id": this.events[index]._id}})
-                .then((result)=>{
+            ClientLib.deleteEvent(this.events[index]._id)
+                .then(()=>{
                     this.events.splice(index, 1);
                     this.selectedEditId = "";
                 })
@@ -81,10 +77,9 @@ module.exports = Vue.component('events-main', {
                 description: this.newEvent.description,
                 presenter: this.newEvent.presenter
             }
-            console.log("Creating event", data);
-            axios.post(window.location.origin + '/api/gspfscreen/events', data)
+            ClientLib.createEvent(data)
                 .then((result)=>{
-                    this.events.push(result.data);
+                    this.events.push(result);
                 })
                 .catch((err)=>{
                     console.log(err);
@@ -131,7 +126,7 @@ module.exports = Vue.component('events-main', {
         </div>
         <hr/>
         <h4 class="divider">Manage Events</h4>
-        <div style="margin-top:50px;">
+        <div class="manage-events-table">
             <table class="table table-hover table-dark">
                 <thead>
                     <tr>

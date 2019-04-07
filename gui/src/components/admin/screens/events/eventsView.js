@@ -1,3 +1,4 @@
+'use strict';
 const Vue = require('vue/dist/vue');
 const moment = require('moment');
 

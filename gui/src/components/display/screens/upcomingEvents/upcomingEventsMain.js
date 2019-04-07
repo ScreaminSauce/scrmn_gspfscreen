@@ -1,7 +1,8 @@
+'use strict';
+const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
 const moment = require('moment');
 const momentTz = require('moment-timezone')
-const axios = require('axios');
 const upcomingEventCmpnt = require('./upcomingEvent');
 
 module.exports = Vue.component('upcomingevents-main', {
@@ -60,11 +61,11 @@ module.exports = Vue.component('upcomingevents-main', {
             })
         },
         updateEvents: function(){
-            return axios.get(window.location.origin + "/api/gspfscreen/events")
+            return ClientLib.getEvents()
                 .then((results)=>{
                     let totalEventsToDisplay = 6;
                     let totalAdded = 0;
-                    results.data.forEach((evt)=>{
+                    results.forEach((evt)=>{
                         let cdate = moment();
                         let evtdate = moment(evt.startTime).add(15, 'minutes');
                         if (cdate < evtdate && (totalAdded < totalEventsToDisplay)){
@@ -78,9 +79,9 @@ module.exports = Vue.component('upcomingevents-main', {
                 })
         },
         updateAnnouncements: function(){
-            return axios.get(window.location.origin + "/api/gspfscreen/announcements")
+            return ClientLib.getAnnouncements()
                 .then((results)=>{
-                    results.data.forEach((evt)=>{this.announcements.push(evt)})
+                    results.forEach((ann)=>{this.announcements.push(ann)})
                 })
                 .catch((err)=>{
                     console.log("Error getting announcements.", err);
@@ -141,7 +142,7 @@ module.exports = Vue.component('upcomingevents-main', {
                 </div>
                 <div class="content">
                     <div class="header">
-                        <div><img src="images/gspflogosm.jpg" style="width:100px;height:100px;"></div>
+                        <div><img class="gspf-header-image" src="images/gspflogosm.jpg"></div>
                         <div class="title">Upcoming Events</div>
                         <div class="spacer"></div>
                         <div class="date-time">
