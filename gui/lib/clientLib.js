@@ -5,9 +5,16 @@ const _ = require('lodash');
 
 class ClientLib {
     static handleError(err){
-        if (_.has(err, "response.status") && err.response.status == 401){
-            //User has been logged out, may as well send them to the login page.
-            window.location = ClientLib.AUTHENTICATION_URL;
+        if (_.has(err, "response.status")){
+            if (err.response.status == 401){
+                //User has been logged out, or trying to get in without authentication
+                window.location = ClientLib.AUTHENTICATION_URL + "?errCode=1";
+            } else if (err.response.status == 403){
+                //User trying to do something naughty (Forbidden)... may as well send them to the login page.
+                window.location = ClientLib.AUTHENTICATION_URL + "?errCode=2";
+            } else {
+                return Promise.reject(err);
+            }
         } else {
             return Promise.reject(err);
         }
@@ -89,7 +96,7 @@ class ClientLib {
 }
 
 ClientLib.APPLICATION_URL = "/public/auth/application.html";
-ClientLib.AUTHENTICATION_URL = "/public/auth/index.html";
+ClientLib.AUTHENTICATION_URL = "/public/auth/login.html";
 ClientLib.DISPLAY_PREVIEW_URL = "/public/gspfscreen/display.html";
 
 module.exports = ClientLib;

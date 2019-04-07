@@ -37,10 +37,16 @@ module.exports = new Vue({
             window.location = ClientLib.APPLICATION_URL;
         }
     },
-    mounted: function(){
+    beforeCreate: function(){
         ClientLib.getMyUser()
+            .then((userInfo)=>{
+                if (userInfo.authorizedApps.indexOf('gspfscreen-admin') == -1){
+                    //You shouldnt be here.
+                    window.location = ClientLib.AUTHENTICATION_URL + "?errCode=2"
+                }
+            })
             .catch(()=>{
-                window.location = ClientLib.AUTHENTICATION_URL;
+                window.location = ClientLib.AUTHENTICATION_URL + "?errCode=1";
             })
     },
     template: `

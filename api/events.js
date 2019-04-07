@@ -46,6 +46,11 @@ module.exports = (logger, basePath, dbConns)=>{
                         presenter: Joi.string().allow('').optional(),
                         imageUrl: Joi.string().optional()
                     }
+                },
+                auth: {
+                    access: {
+                        scope: ["+gspfscreen-admin"]
+                    }
                 }
             }
         },
@@ -68,6 +73,11 @@ module.exports = (logger, basePath, dbConns)=>{
                         presenter: Joi.string().allow('').optional(),
                         imageUrl: Joi.string().allow('').optional()
                     }
+                },
+                auth: {
+                    access: {
+                        scope: ["+gspfscreen-admin"]
+                    }
                 }
             }
         },
@@ -81,6 +91,11 @@ module.exports = (logger, basePath, dbConns)=>{
                 validate: {
                     params: {
                         id: Joi.string().required()
+                    }
+                },
+                auth: {
+                    access: {
+                        scope: ["+gspfscreen-admin"]
                     }
                 }
             }

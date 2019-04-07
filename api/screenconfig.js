@@ -1,7 +1,6 @@
-const _ = require('lodash');
+'use strict';
 const Joi = require('joi');
 const Boom = require('boom');
-const ObjectId = require('mongodb').ObjectID;
 
 module.exports = (logger, basePath, dbConns)=>{
     let collection = 'screenconfig';
@@ -67,34 +66,6 @@ module.exports = (logger, basePath, dbConns)=>{
                 validate: {
                     params: {
                         name: Joi.string().required()
-                    }
-                }
-            }
-        },
-        {
-            method: 'PUT',
-            path: basePath + "/screenConfig",
-            handler: (request, h) => {
-                let db = dbConns.getConnection("gspfscreen");
-                return new Promise((resolve, reject)=>{
-                    let ops = {
-                        "$set":{
-                            "displayOrder": request.payload.displayOrder
-                        }
-                    }
-                    db.collection(collection).findOneAndUpdate({"_id":ObjectId(request.payload._id)}, ops, {returnOriginal: false}, (err, results)=>{
-                        if (err){
-                            throw new Boom.internal("Not found?");
-                        }
-                        return resolve(results.value);
-                    })
-                })
-            },
-            config: {
-                validate: {
-                    payload: {
-                        "_id":Joi.string().required(),
-                        "displayOrder":Joi.array().required()
                     }
                 }
             }
