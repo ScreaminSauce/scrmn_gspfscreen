@@ -23,7 +23,18 @@ module.exports = Vue.component('infoitems-main', {
     mounted: function(){
         this.fetchInfoItems()
             .then((items)=>{
-                this.infoItems = items;
+                if (items.length == 0){
+                    this.infoItems = [
+                        {
+                            title: "Did you know?", 
+                            message: "The Lodi Golden State Pinball Festival started in 2018, but has a history dating back 7 years!",
+                            imageUrl: window.location.origin + "/public/gspfscreen/images/gspflogosm.jpg"
+                        }
+                    ]
+                } else {
+                    this.infoItems = items;
+                }
+                
                 this.showItems = setInterval(this.showRandomThing, 10000)
                 this.activeItemIdx = Math.floor(Math.random() * Math.floor(this.infoItems.length));
                 this.activeItem = this.infoItems[this.activeItemIdx];
