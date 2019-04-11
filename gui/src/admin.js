@@ -6,6 +6,7 @@ const Vue = require('vue/dist/vue');
 const myCss = require('./style/gspfScreenAdmin.scss');
 const annMainCmpnt = require('./components/admin/screens/announcements/annMain');
 const eventsMainCmpnt = require('./components/admin/screens/events/eventsMain');
+const infoItemsMainCmpnt = require('./components/admin/screens/infoitems/infoitemsMain');
 
 module.exports = new Vue({
     el: "#app",
@@ -59,6 +60,9 @@ module.exports = new Vue({
                     </li>
                     <li class="nav-item" v-bind:class="{active: currentTab=='events'}">
                         <a class="nav-link" v-on:click="changeTab('events')">Events</a>
+                    </li>
+                    <li class="nav-item" v-bind:class="{active: currentTab=='infoitems'}">
+                        <a class="nav-link" v-on:click="changeTab('infoitems')">Informational</a>
                     </li>
                 </ul>
                 <div>

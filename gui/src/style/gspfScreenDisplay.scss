@@ -185,9 +185,8 @@ body {
 
 .sponsors-main {
     font-family: 'Cairo', sans-serif;
-    // background-image: url("../../static/images/StarTrek-Landscape.jpg");
     background-image:url("../../static/images/AcDc-Landscape.jpg");
-    // background-color: white;
+    background-blend-mode: lighten;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -215,6 +214,70 @@ body {
         img {
             max-height: 75px;
             margin: 20px;
+        }
+    }
+}
+
+.infoitems-main {
+    font-family: 'Cairo', sans-serif;
+    background-image:url("../../static/images/DemoMan.jpg");
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .header {
+        flex: 0 0;
+        margin: 15px;
+        padding: 20px;
+        border: 4px solid purple;
+        border-radius: 5px;
+        background-color:rgba(32, 28, 28, 0.95);
+        color: rgb(255, 255, 255);
+        text-align: center;
+        font-size: 3rem;
+        display: flex;
+        flex-direction: row;
+        
+        .info-title {
+            margin-left: 15px;
+            flex: 1 1 auto;
+        }
+
+        .date-time {
+            color: white;
+            border-left: 3px solid slategray;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .date {
+                font-size: 1rem;
+            }
+
+            .time {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .content-description {
+        flex: 1 1 auto;
+        margin: 15px;
+        padding: 20px;
+        border: 4px solid purple;
+        border-radius: 5px;
+        background-color:rgba(32, 28, 28, 0.95);
+        color: rgb(255, 255, 255);
+        font-size: 2rem;
+        
+
+        img {
+            max-width: 450px;
+            max-height: 450px;
+            float: left;
+            margin: 15px;
         }
     }
 }

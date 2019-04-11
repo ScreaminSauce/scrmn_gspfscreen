@@ -14,8 +14,7 @@ class GuiBuilder {
             },
             output: {
                 filename: '[name].js',
-                path: path.resolve(outputFolder),
-                sourceMapFilename: '[name].map'
+                path: path.resolve(outputFolder)
             },
             devtool: "source-map",
             node: {

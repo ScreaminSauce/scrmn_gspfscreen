@@ -32,7 +32,7 @@ class ClientLib {
     }
 
     static getScreenConfig(){
-        return axios.get(`${originBase}/api/gspfscreen/screenConfig/default`)
+        return axios.get(`${originBase}/api/gspfscreen/screenconfig`)
             .then((result)=>{
                 return result.data;
             }, ClientLib.handleError)
@@ -89,6 +89,34 @@ class ClientLib {
 
     static deleteEvent(id){
         return axios.delete(`${originBase}/api/gspfscreen/events/event/id/${id}`)
+            .then((result)=>{
+                return result.data;
+            }, ClientLib.handleError)
+    }
+
+    static getInfoItems(){
+        return axios.get(`${originBase}/api/gspfscreen/infoitems`)
+            .then((result)=>{
+                return result.data;
+            }, ClientLib.handleError)
+    }
+
+    static createInfoItem(infoItem){
+        return axios.post(`${originBase}/api/gspfscreen/infoitems`, infoItem)
+            .then((result)=>{
+                return result.data;
+            }, ClientLib.handleError)
+    }
+
+    static updateInfoItem(id, updateInfo){
+        return axios.put(`${originBase}/api/gspfscreen/infoitems/item/id/${id}`, updateInfo)
+            .then((result)=>{
+                return result.data;
+            }, ClientLib.handleError)
+    }
+
+    static deleteInfoItem(id){
+        return axios.delete(`${originBase}/api/gspfscreen/infoitems/item/id/${id}`)
             .then((result)=>{
                 return result.data;
             }, ClientLib.handleError)

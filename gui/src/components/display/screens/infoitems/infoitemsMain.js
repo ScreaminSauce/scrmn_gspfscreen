@@ -1,0 +1,68 @@
+const Vue = require('vue/dist/vue');
+const ClientLib = require('../../../../../lib/clientLib');
+const momentTz = require('moment-timezone')
+
+module.exports = Vue.component('infoitems-main', {
+    data: function(){
+        return {
+            activeItemIdx: null,
+            activeItem: {},
+            infoItems: []
+        }
+    },
+    computed: {
+        date: function(){
+            let date = momentTz().tz("America/Los_Angeles").format("dddd, MMM Do");
+            return date;
+        },
+        time: function(){
+            let time = momentTz().tz("America/Los_Angeles").format("h:mm a");
+            return time;
+        }
+    },
+    mounted: function(){
+        this.fetchInfoItems()
+            .then((items)=>{
+                this.infoItems = items;
+                this.showItems = setInterval(this.showRandomThing, 10000)
+                this.activeItemIdx = Math.floor(Math.random() * Math.floor(this.infoItems.length));
+                this.activeItem = this.infoItems[this.activeItemIdx];
+            })
+    },
+    beforeDestroy: function() {
+        clearInterval(this.showItems);
+    },
+    methods: {
+        fetchInfoItems: function(){
+            return ClientLib.getInfoItems()
+                .catch((err)=>{
+                    console.log("Error getting info items", err);
+                })
+        },
+        showRandomThing: function(){
+            let newItemShown = false;
+            while(!newItemShown){
+                let randomChoice = Math.floor(Math.random() * Math.floor(this.infoItems.length));
+                if ((randomChoice != this.activeItemIdx) || (this.infoItems.length == 1)){
+                    this.activeItemIdx = randomChoice;
+                    this.activeItem = this.infoItems[randomChoice];
+                    newItemShown = true;
+                }
+            }
+        }
+    },
+    template: `
+        <div class="infoitems-main">
+            <div class="header">
+                <div class="info-title">{{activeItem.title}}</div>
+                <div class="date-time">
+                    <div class="date">{{date}}</div>
+                    <div class="time">{{time}}</div>
+                </div>
+            </div>
+            <div class="content-description">
+                <img class="event-image" v-if="activeItem.imageUrl" v-bind:src="activeItem.imageUrl"></img>    
+                {{activeItem.message}}
+            </div>
+        </div>`
+})
