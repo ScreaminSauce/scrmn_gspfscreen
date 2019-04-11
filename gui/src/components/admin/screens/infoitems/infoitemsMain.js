@@ -72,10 +72,10 @@ module.exports = Vue.component('infoitems-main', {
         <table class="table table-striped mt-2">
             <thead>
                 <tr>
-                    <th class="col-2">Title</th>
-                    <th class="col-5">Message</th>
-                    <th class="col-3">ImageUrl</th>
-                    <th class="col-2">Actions</th>
+                    <th>Title</th>
+                    <th>Message</th>
+                    <th>ImageUrl</th>
+                    <th width="200">Actions</th>
                 </tr>
             </thead>
             <tbody>
