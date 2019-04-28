@@ -71,9 +71,7 @@ module.exports = new Vue({
                     <button class="btn btn-outline-success my-2 my-sm-0" v-on:click="onLogoutClicked">Logout</button>
                 </div>
             </nav>
-            <component
-                v-bind:is="currentTabComponent"
-            ></component>
+            <component v-bind:is="currentTabComponent"></component>
         </div>
     `,
 })

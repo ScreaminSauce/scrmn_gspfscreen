@@ -1,9 +1,15 @@
 'use strict';
 const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
-const moment = require('moment');
+// const moment = require('moment');
 const momentTz = require('moment-timezone')
 const upcomingEventCmpnt = require('./upcomingEvent');
+
+const TIMEZONE = "America/Los_Angeles";
+const TOTAL_EVENTS_TO_DISPLAY = 7;
+const ANNOUNCEMENT_INTERVAL_MS = 10000;
+const EVENT_INTERVAL_MS = 5000;
+const EVENT_TIME_BUFFER_MINUTES = 10;
 
 module.exports = Vue.component('upcomingevents-main', {
     data: function(){
@@ -18,7 +24,7 @@ module.exports = Vue.component('upcomingevents-main', {
     },
     computed: {
         contentDisplayTime: function(){
-            return momentTz(this.activeEvent.startTime).tz("America/Los_Angeles").format("ddd, h:mm a");
+            return momentTz(this.activeEvent.startTime).tz(TIMEZONE).format("ddd, h:mm a");
         },
         annClassObj: function(){
              return {
@@ -29,11 +35,11 @@ module.exports = Vue.component('upcomingevents-main', {
              }
         },
         date: function(){
-            let date = momentTz().tz("America/Los_Angeles").format("dddd, MMM Do");
+            let date = momentTz().tz(TIMEZONE).format("dddd, MMM Do");
             return date;
         },
         time: function(){
-            let time = momentTz().tz("America/Los_Angeles").format("h:mm a");
+            let time = momentTz().tz(TIMEZONE).format("h:mm a");
             return time;
         }
     },
@@ -56,21 +62,19 @@ module.exports = Vue.component('upcomingevents-main', {
     methods: {
         fetchDisplayConfig: function(){
             return Promise.resolve({
-                announcements:{interval: 10000},
-                events: {interval: 5000}
+                announcements:{interval: ANNOUNCEMENT_INTERVAL_MS},
+                events: {interval: EVENT_INTERVAL_MS}
             })
         },
         updateEvents: function(){
+            // let cdate = momentTz('2019-05-17 14:01').tz(TIMEZONE);
+            let cdate = momentTz('2019-05-17 14:01').tz(TIMEZONE);
             return ClientLib.getEvents()
                 .then((results)=>{
-                    let totalEventsToDisplay = 6;
-                    let totalAdded = 0;
                     results.forEach((evt)=>{
-                        let cdate = moment();
-                        let evtdate = moment(evt.startTime).add(15, 'minutes');
-                        if (cdate < evtdate && (totalAdded < totalEventsToDisplay)){
+                        let evtdate = momentTz(evt.startTime).tz(TIMEZONE).add(EVENT_TIME_BUFFER_MINUTES, 'minutes');
+                        if (cdate < evtdate && (this.events.length < TOTAL_EVENTS_TO_DISPLAY)){
                             this.events.push(evt)
-                            totalAdded = totalAdded + 1;
                         }
                     })
                 })
@@ -138,7 +142,6 @@ module.exports = Vue.component('upcomingevents-main', {
             <div class="main-body">
                 <div class="sidebar">
                     <upcoming-event ref="evtList" v-for="evt in events" :key="evt._id" :event="evt"></upcoming-event>
-                    <div class="spacer"></div>
                 </div>
                 <div class="content">
                     <div class="header">

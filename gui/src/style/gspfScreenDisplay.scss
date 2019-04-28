@@ -27,20 +27,29 @@ body {
             flex: 0 0 auto;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             background: rgba(0, 0, 0, 0.9);
             overflow-y: hidden;
             border-radius: 5px;
-            max-width: 300px;
+            max-width: 200px;
             margin: 25px 0 25px 25px;
+            overflow-wrap: break-word;
 
             .eventItem {
+                flex: 1 1 auto;
+                display:flex;
+                flex-direction: column;
+                justify-content: center;
                 font-size: 1rem;
-                margin: 0 20px 0 20px;
+                padding: 0 15px;
                 border-bottom: 3px solid slategray;
-                padding: 10px;
                 text-align: center;
                 color: white;
                 align-items: center;
+            }
+            
+            .eventItem:last-child {
+                border-bottom: none;
             }
 
             .active-event {
@@ -137,9 +146,7 @@ body {
         display: flex;
         flex-direction: row;
         align-items: center;
-
-        background-color: black;
-        padding-right: 15px;
+        border: 5px solid black;
         border-radius: 5px;
         color: white;
         line-height: 45px;;
@@ -147,7 +154,6 @@ body {
 
         .announcement {
             padding-left: 15px;
-            margin-left: 15px;
             background-color: rgba(26, 100, 210, 0.9);
             color: white;
             flex: 1 0;
@@ -160,7 +166,7 @@ body {
             .annMessage {
                 flex: 1 0;
                 padding-left: 20px;
-                margin: 2px 2px 2px 30px;
+                margin-left: 30px;
                 font-size: 1rem;
                 overflow-y: hidden;
             }
