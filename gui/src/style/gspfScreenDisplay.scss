@@ -287,3 +287,70 @@ body {
         }
     }
 }
+
+.tomorrowevents-main {
+    font-family: 'Cairo', sans-serif;
+    background-image:url("../../static/images/IronMaiden.jpg");
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .header {
+        flex: 0 1 auto;
+        margin: 15px;
+        padding: 20px;
+        border: 4px solid lightgreen;
+        border-radius: 5px;
+        background-color:rgba(32, 28, 28, 0.95);
+        color: rgb(255, 255, 255);
+        text-align: center;
+        font-size: 3rem;
+        display: flex;
+        flex-direction: row;
+        
+        .info-title {
+            margin-left: 15px;
+            flex: 1 1 auto;
+        }
+
+        .date-time {
+            color: white;
+            border-left: 3px solid slategray;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .date {
+                font-size: 1rem;
+            }
+
+            .time {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .content-description {
+        flex: 1 1 auto;
+        margin: 15px;
+        padding: 20px;
+        border: 4px solid lightgreen;
+        border-radius: 5px;
+        background-color:rgba(32, 28, 28, 0.95);
+        color: rgb(255, 255, 255);
+        font-size: 2rem;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .tomorrowItem {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            border-bottom: 2px solid grey;
+        }
+    }
+}

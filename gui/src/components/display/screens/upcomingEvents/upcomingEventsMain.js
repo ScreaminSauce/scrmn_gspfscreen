@@ -1,7 +1,6 @@
 'use strict';
 const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
-// const moment = require('moment');
 const momentTz = require('moment-timezone')
 const upcomingEventCmpnt = require('./upcomingEvent');
 
@@ -68,7 +67,7 @@ module.exports = Vue.component('upcomingevents-main', {
         },
         updateEvents: function(){
             // let cdate = momentTz('2019-05-17 14:01').tz(TIMEZONE);
-            let cdate = momentTz('2019-05-17 14:01').tz(TIMEZONE);
+            let cdate = momentTz().tz(TIMEZONE);
             return ClientLib.getEvents()
                 .then((results)=>{
                     results.forEach((evt)=>{

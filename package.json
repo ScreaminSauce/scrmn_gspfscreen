@@ -1,6 +1,6 @@
 {
   "name": "@screaminsauce/scrmn_gspfscreen",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A module used for displaying informational screens for the GSPF.",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "mongodb": "^3.2.3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "vue": "^2.6.10",

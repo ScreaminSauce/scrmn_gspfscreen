@@ -1,9 +1,9 @@
 'use strict';
 const Joi = require('joi');
 const Boom = require('boom');
+const momentTz = require('moment-timezone');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let collection = 'screenconfig';
     let defaultConfig = { 
         "name" : "default", 
         "displayOrder" : [ 
@@ -21,6 +21,11 @@ module.exports = (logger, basePath, dbConns)=>{
                 "displayName":"Informational Screens",
                 "componentName":"infoitems-main",
                 "durationInSeconds": "30"
+            },
+            {
+                "displayName": "Tomorrows Events",
+                "componentName":"tomorrowevents-main",
+                "durationInSeconds": "20"
             }
         ] }
     return [

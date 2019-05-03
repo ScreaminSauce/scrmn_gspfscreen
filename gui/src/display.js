@@ -7,6 +7,7 @@ const myCss = require('./style/gspfScreenDisplay.scss');
 const upcomingEventsMain = require('./components/display/screens/upcomingEvents/upcomingEventsMain');
 const sponsorsMain = require('./components/display/screens/sponsors/sponsorsMain');
 const infoitemsMain = require('./components/display/screens/infoitems/infoitemsMain');
+const tomorrowEventsMain = require('./components/display/screens/tomorrowEvents/tomorrowEventsMain');
 
 module.exports = new Vue({
     el: "#app",
@@ -19,7 +20,7 @@ module.exports = new Vue({
         this.fetchScreenConfig("default")
             .then((config) => {
                 this.displayOrder = config.displayOrder;
-                //this.displayOrder = [{componentName:"infoitems-main", durationInSeconds:60}];
+                //this.displayOrder = [{componentName:"tomorrowevents-main", durationInSeconds:60}];
                 return this.startDaMachine();
             })
             .catch((err) => {

@@ -8,6 +8,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 class GuiBuilder {
     constructor(outputFolder) {
         this._config = {
+            mode: "production",
             entry: {
                 'scrmn_gspfscreen_admin': path.resolve(__dirname, "src/admin.js"),
                 'scrmn_gspfscreen_display': path.resolve(__dirname, "src/display.js")
