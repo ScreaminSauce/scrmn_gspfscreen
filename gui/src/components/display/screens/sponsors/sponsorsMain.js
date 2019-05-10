@@ -15,6 +15,8 @@ module.exports = Vue.component('sponsors-main', {
             '/public/gspfscreen/images/sponsors/kludtspons.jpg',
             '/public/gspfscreen/images/sponsors/marcospecspons.jpg',
             '/public/gspfscreen/images/sponsors/mezelspons.jpg',
+            '/public/gspfscreen/images/sponsors/pacCoastProdSpons.jpg',
+            '/public/gspfscreen/images/sponsors/petrologixspons.jpg',
             '/public/gspfscreen/images/sponsors/PPMspons.jpg',
             '/public/gspfscreen/images/sponsors/RobAnthSpon.jpg',
             '/public/gspfscreen/images/sponsors/wescospons.jpg'
