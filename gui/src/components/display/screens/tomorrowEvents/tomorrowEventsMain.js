@@ -36,9 +36,9 @@ module.exports = Vue.component('tomorrowevents-main', {
             let today = momentTz().tz(TIMEZONE).format("dddd");
             
             let now = momentTz().tz(TIMEZONE);
-            if (now < momentTz("2019-02-17", "YYYY-MM-DD").tz(TIMEZONE)){
+            if (now < momentTz("2019-05-17", "YYYY-MM-DD").tz(TIMEZONE)){
                 console.log("Not quite showtime yet - coming soon!");
-                today = "Friday";
+                today = "Thursday";
             }
 
             return ClientLib.getEvents()
@@ -46,7 +46,9 @@ module.exports = Vue.component('tomorrowevents-main', {
                     let filteredList = [];
                     results.forEach((evt)=>{
                         let dayOfEvent = momentTz(evt.startTime).tz(TIMEZONE).format("dddd");
-                        if (today == "Friday"){
+                        if (today == "Thursday"){
+                            if (dayOfEvent == "Friday") { filteredList.push (evt) }
+                        } else if (today == "Friday"){
                             if (dayOfEvent == "Saturday") { filteredList.push (evt) }
                         } else if (today == "Saturday"){
                             if (dayOfEvent == "Sunday") { filteredList.push (evt) }

@@ -74,7 +74,7 @@ class GuiBuilder {
                     logger.error(err);
                     reject(err);
                 } else {
-                    logger.info("Webpack build complete for module.")
+                    logger.info({module: "gspfscreen"}, "Webpack build complete for module.")
                     resolve();
                 }
             });

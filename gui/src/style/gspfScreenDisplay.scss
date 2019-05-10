@@ -340,11 +340,11 @@ body {
         border-radius: 5px;
         background-color:rgba(32, 28, 28, 0.95);
         color: rgb(255, 255, 255);
-        font-size: 2rem;
+        font-size: 1.5rem;
 
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
 
         .tomorrowItem {
             display: flex;

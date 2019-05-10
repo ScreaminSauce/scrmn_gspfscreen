@@ -4,13 +4,11 @@ const devModule = require("../")
 
 let server = new ScreaminServer({
     name: 'gspfScreenTest',
-    type: 'both',
     options: {
         port: 3000,
         host: 'localhost'
     },
     modules: [authModule, devModule],
-    wwwDir: 'public',
     auth: {
         secret: 'ThisIsATestSecretThisIsATestSecretThisIsATestSecret',
         cookieName: "screaminCookie",
