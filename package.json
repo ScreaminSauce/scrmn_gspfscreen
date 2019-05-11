@@ -1,6 +1,6 @@
 {
   "name": "@screaminsauce/scrmn_gspfscreen",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "A module used for displaying informational screens for the GSPF.",
   "main": "index.js",
   "scripts": {

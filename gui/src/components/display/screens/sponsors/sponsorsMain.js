@@ -8,6 +8,7 @@ module.exports = Vue.component('sponsors-main', {
             '/public/gspfscreen/images/sponsors/cliffyspon.jpg',
             '/public/gspfscreen/images/sponsors/coin-opSpons.jpg',
             '/public/gspfscreen/images/sponsors/DHIFspons.jpg',
+            '/public/gspfscreen/images/sponsors/fivewindowspons.jpg',
             '/public/gspfscreen/images/sponsors/fliproomspons.jpg',
             '/public/gspfscreen/images/sponsors/GEXspons.jpg',
             '/public/gspfscreen/images/sponsors/Hawkspons.jpg',
