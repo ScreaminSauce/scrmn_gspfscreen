@@ -2,19 +2,24 @@
 const ObjectId = require('mongodb').ObjectID;
 
 class InfoLib {
-    constructor(logger, dbConn){
+    constructor(logger, dbConns){
         this.logger = logger;
-        this._infoCollection = dbConn.collection('info');
+        this._dbClient = dbConns.getConnection('gspfscreen');
+        this._infoCollection = this._dbClient.collection('info');
     }
 
     getAllInfoItems(){
         return this._infoCollection.find({}).toArray();
     }
 
+    getInfoItem(id){
+        return this._infoCollection.find({_id: ObjectId(id)});
+    }
+
     createInfoItem(item){
         return this._infoCollection.insertOne(item)
             .then((result)=>{
-                return result.ops[0];
+                return this.getInfoItem(result.insertedId);
             })
     }
 
@@ -22,7 +27,7 @@ class InfoLib {
         let ops = {
             "$set": updateInfo
         }
-        return this._infoCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, {returnOriginal: false})
+        return this._infoCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, { returnDocument: 'after' })
         .then((result)=>{
             return result.value;
         })

@@ -1,36 +1,37 @@
 {
-  "name": "@screaminsauce/scrmn_gspfscreen",
-  "version": "1.2.8",
-  "description": "A module used for displaying informational screens for the GSPF.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "manualtest": "node test/start.js | bunyan"
-  },
-  "author": "Jeff Claybaugh",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.18.0",
-    "boom": "^7.3.0",
-    "bootstrap": "^4.3.1",
-    "clean-webpack-plugin": "^2.0.1",
-    "copy-webpack-plugin": "^4.6.0",
-    "css-loader": "^2.1.0",
-    "file-loader": "^3.0.1",
-    "joi": "^14.3.1",
-    "lodash": "^4.17.11",
-    "mini-css-extract-plugin": "^0.5.0",
-    "moment": "^2.24.0",
-    "moment-timezone": "^0.5.23",
-    "mongodb": "^3.2.3",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
-    "vue": "^2.6.10",
-    "webpack": "^4.29.4"
-  },
-  "devDependencies": {
-    "@screaminsauce/screaminserver": "^1.0.1",
-    "@screaminsauce/scrmn_auth": "^1.1.2"
-  }
+    "name": "@screaminsauce/scrmn_gspfscreen",
+    "version": "2.0.0",
+    "description": "A module used for displaying informational screens for the GSPF.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "manualtest": "node test/start.js | bunyan"
+    },
+    "author": "Jeff Claybaugh",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.26.0",
+        "@hapi/boom": "^9.1.4",
+        "bootstrap": "^4.3.1",
+        "clean-webpack-plugin": "^3.0.0",
+        "copy-webpack-plugin": "^10.2.4",
+        "css-loader": "^6.7.0",
+        "file-loader": "^6.2.0",
+        "joi": "^17.0.6",
+        "lodash": "^4.17.21",
+        "mini-css-extract-plugin": "^2.6.0",
+        "moment": "^2.24.0",
+        "moment-timezone": "^0.5.25",
+        "mongodb": "^3.2.7",
+        "node-sass": "^7.0.1",
+        "sass-loader": "^12.6.0",
+        "style-loader": "^3.3.1",
+        "vue": "^2.6.11",
+        "webpack": "^5.70.0"
+    },
+    "devDependencies": {
+        "@screaminsauce/screaminserver": "^5.0.4",
+        "@screaminsauce/scrmn_auth": "^3.0.0",
+        "dotenv": "^8.0.0"
+    }
 }

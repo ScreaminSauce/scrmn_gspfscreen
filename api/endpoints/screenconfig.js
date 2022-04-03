@@ -1,6 +1,6 @@
 'use strict';
 const Joi = require('joi');
-const Boom = require('boom');
+const Boom = require('@hapi/boom');
 const momentTz = require('moment-timezone');
 
 module.exports = (logger, basePath, dbConns)=>{
@@ -10,22 +10,22 @@ module.exports = (logger, basePath, dbConns)=>{
             { 
                 "displayName" : "Upcoming Events", 
                 "componentName" : "upcomingevents-main", 
-                "durationInSeconds" : "60" 
+                "durationInSeconds" : "10" 
             }, 
             { 
                 "displayName" : "Sponsors", 
                 "componentName" : "sponsors-main", 
-                "durationInSeconds" : "20" 
+                "durationInSeconds" : "10" 
             },
             {
                 "displayName":"Informational Screens",
                 "componentName":"infoitems-main",
-                "durationInSeconds": "30"
+                "durationInSeconds": "10"
             },
             {
                 "displayName": "Tomorrows Events",
                 "componentName":"tomorrowevents-main",
-                "durationInSeconds": "20"
+                "durationInSeconds": "10"
             }
         ] }
     return [

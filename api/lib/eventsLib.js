@@ -3,9 +3,10 @@ const ObjectId = require('mongodb').ObjectID;
 const moment = require('moment');
 
 class EventsLib {
-    constructor(logger, dbConn){
+    constructor(logger, dbConns){
         this.logger = logger;
-        this._eventsCollection = dbConn.collection('events');
+        this._dbClient = dbConns.getConnection('gspfscreen');
+        this._eventsCollection = this._dbClient.collection('events');
     }
 
     getAllEvents(){
@@ -17,10 +18,14 @@ class EventsLib {
             })
     }
 
+    getEvent(id){
+        return this._eventsCollection.find({_id: ObjectId(id)});
+    }
+
     createEvent(event){
         return this._eventsCollection.insertOne(event)
             .then((result)=>{
-                return result.ops[0];
+                return this.getEvent(result.insertedId);
             })
     }
 
@@ -28,7 +33,7 @@ class EventsLib {
         let ops = {
             "$set": updateInfo
         }
-        return this._eventsCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, {returnOriginal: false})
+        return this._eventsCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, { returnDocument: 'after' })
         .then((result)=>{
             return result.value;
         })

@@ -1,20 +1,20 @@
 'use strict';
 const Joi = require('joi');
-const Boom = require('boom');
-const InfoLib = require('./lib/infoitemsLib');
+const Boom = require('@hapi/boom');
+const AnnLib = require('../lib/announcementsLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let callinfoLib = function(methodName, onError, ...args){
+    let callAnnouncementsLib = function(methodName, onError, ...args){
         let db = dbConns.getConnection('gspfscreen');
-        let iLib = new InfoLib(logger, db);
-        return iLib[methodName].call(iLib, ...args)
+        let aLib = new AnnLib(logger, dbConns);
+        return aLib[methodName].call(aLib, ...args)
             .catch((err)=>{
                 if (onError){
                     return onError(err);
                 } else {
                     console.log(err);
                     logger.error({error:err, methodName: methodName});
-                    Boom.internal("Error calling infoLib." + methodName);
+                    Boom.internal("Error calling announcementsLib." + methodName);
                 }
             })
     }
@@ -22,9 +22,9 @@ module.exports = (logger, basePath, dbConns)=>{
     return [
         {
             method: 'GET',
-            path: basePath + "/infoitems",
+            path: basePath + "/announcements",
             handler: (request, h) => {
-                return callinfoLib("getAllInfoItems", null);
+                return callAnnouncementsLib("getAllAnnouncements", null);
             },
             config: {
                 auth: false
@@ -32,16 +32,15 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "POST",
-            path: basePath + "/infoitems",
+            path: basePath + "/announcements",
             handler: (request, h)=>{
-                return callinfoLib("createInfoItem", null, request.payload);
+                return callAnnouncementsLib("createAnnouncement", null, request.payload);
             },
             config: {
                 validate: {
                     payload: {
-                        title: Joi.string().required(),
                         message: Joi.string().required(),
-                        imageUrl: Joi.string().optional().allow('')
+                        type: Joi.string().required()
                     }
                 },
                 auth: {
@@ -53,9 +52,9 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "PUT",
-            path: basePath + "/infoitems/item/id/{id}",
+            path: basePath + "/announcements/announcement/id/{id}",
             handler: (request, h)=>{
-                return callinfoLib("updateInfoItem", null, request.params.id, request.payload)
+                return callAnnouncementsLib("updateAnnouncement", null, request.params.id, request.payload)
             },
             config: {
                 validate: {
@@ -63,9 +62,8 @@ module.exports = (logger, basePath, dbConns)=>{
                         id: Joi.string().required()
                     },
                     payload: {
-                        title: Joi.string().required(),
                         message: Joi.string().required(),
-                        imageUrl: Joi.string().optional().allow('')
+                        type: Joi.string().required()
                     }
                 },
                 auth: {
@@ -77,9 +75,9 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "DELETE",
-            path: basePath + "/infoitems/item/id/{id}",
+            path: basePath + "/announcements/announcement/id/{id}",
             handler: (request, h)=>{
-                return callinfoLib("deleteInfoItem", null, request.params.id);
+                return callAnnouncementsLib("deleteAnnouncement", null, request.params.id);
             },
             config: {
                 validate: {

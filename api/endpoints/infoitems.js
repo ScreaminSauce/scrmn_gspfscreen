@@ -1,20 +1,20 @@
 'use strict';
 const Joi = require('joi');
-const Boom = require('boom');
-const EventsLib = require('./lib/eventsLib');
+const Boom = require('@hapi/boom');
+const InfoLib = require('../lib/infoitemsLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let callEventsLib = function(methodName, onError, ...args){
+    let callinfoLib = function(methodName, onError, ...args){
         let db = dbConns.getConnection('gspfscreen');
-        let eLib = new EventsLib(logger, db);
-        return eLib[methodName].call(eLib, ...args)
+        let iLib = new InfoLib(logger, dbConns);
+        return iLib[methodName].call(iLib, ...args)
             .catch((err)=>{
                 if (onError){
                     return onError(err);
                 } else {
                     console.log(err);
                     logger.error({error:err, methodName: methodName});
-                    Boom.internal("Error calling eventsLib." + methodName);
+                    Boom.internal("Error calling infoLib." + methodName);
                 }
             })
     }
@@ -22,9 +22,9 @@ module.exports = (logger, basePath, dbConns)=>{
     return [
         {
             method: 'GET',
-            path: basePath + "/events",
+            path: basePath + "/infoitems",
             handler: (request, h) => {
-                return callEventsLib("getAllEvents", null);
+                return callinfoLib("getAllInfoItems", null);
             },
             config: {
                 auth: false
@@ -32,19 +32,16 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "POST",
-            path: basePath + "/events",
+            path: basePath + "/infoitems",
             handler: (request, h)=>{
-                return callEventsLib("createEvent", null, request.payload);
+                return callinfoLib("createInfoItem", null, request.payload);
             },
             config: {
                 validate: {
                     payload: {
-                        name: Joi.string().required(),
-                        startTime: Joi.date().required(),
-                        location: Joi.string().allow('').optional(),
-                        description: Joi.string().allow('').optional(),
-                        presenter: Joi.string().allow('').optional(),
-                        imageUrl: Joi.string().optional()
+                        title: Joi.string().required(),
+                        message: Joi.string().required(),
+                        imageUrl: Joi.string().optional().allow('')
                     }
                 },
                 auth: {
@@ -56,9 +53,9 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "PUT",
-            path: basePath + "/events/event/id/{id}",
+            path: basePath + "/infoitems/item/id/{id}",
             handler: (request, h)=>{
-                return callEventsLib("updateEvent", null, request.params.id, request.payload);
+                return callinfoLib("updateInfoItem", null, request.params.id, request.payload)
             },
             config: {
                 validate: {
@@ -66,12 +63,9 @@ module.exports = (logger, basePath, dbConns)=>{
                         id: Joi.string().required()
                     },
                     payload: {
-                        name: Joi.string().required(),
-                        startTime: Joi.date().required(),
-                        location: Joi.string().allow('').optional(),
-                        description: Joi.string().allow('').optional(),
-                        presenter: Joi.string().allow('').optional(),
-                        imageUrl: Joi.string().allow('').optional()
+                        title: Joi.string().required(),
+                        message: Joi.string().required(),
+                        imageUrl: Joi.string().optional().allow('')
                     }
                 },
                 auth: {
@@ -83,9 +77,9 @@ module.exports = (logger, basePath, dbConns)=>{
         },
         {
             method: "DELETE",
-            path: basePath + "/events/event/id/{id}",
+            path: basePath + "/infoitems/item/id/{id}",
             handler: (request, h)=>{
-                return callEventsLib("deleteEvent", null, request.params.id);
+                return callinfoLib("deleteInfoItem", null, request.params.id);
             },
             config: {
                 validate: {

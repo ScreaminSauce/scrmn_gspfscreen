@@ -2,19 +2,24 @@
 const ObjectId = require('mongodb').ObjectID;
 
 class AnnouncementsLib {
-    constructor(logger, dbConn){
+    constructor(logger, dbConns){
         this.logger = logger;
-        this._annCollection = dbConn.collection('announcements');
+        this._dbClient = dbConns.getConnection('gspfscreen');
+        this._annCollection = this._dbClient.collection('announcements');
     }
 
     getAllAnnouncements(){
         return this._annCollection.find({}).toArray();
     }
 
+    getAnnouncement(id){
+        return this._annCollection.find({_id: ObjectId(id)});
+    }
+
     createAnnouncement(ann){
         return this._annCollection.insertOne(ann)
             .then((result)=>{
-                return result.ops[0];
+                return this.getAnnouncement(result.insertedId);
             })
     }
 
@@ -22,7 +27,7 @@ class AnnouncementsLib {
         let ops = {
             "$set": updateInfo
         }
-        return this._annCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, {returnOriginal: false})
+        return this._annCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, { returnDocument: 'after' })
         .then((result)=>{
             return result.value;
         })

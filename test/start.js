@@ -1,6 +1,10 @@
+'use strict';
+require('dotenv').config({path: "test/.env"});
 const ScreaminServer = require('@screaminsauce/screaminserver');
-const authModule = require('@screaminsauce/scrmn_auth');
-const devModule = require("../")
+const AuthModuleApi = require('@screaminsauce/scrmn_auth').api;
+const AuthModuleGui = require('@screaminsauce/scrmn_auth').gui;
+const GspfModuleApi = require("../").api;
+const GspfModuleGui = require("../").gui;
 
 let server = new ScreaminServer({
     name: 'gspfScreenTest',
@@ -8,18 +12,24 @@ let server = new ScreaminServer({
         port: 3000,
         host: 'localhost'
     },
-    modules: [authModule, devModule],
+    modules: [AuthModuleApi, AuthModuleGui, GspfModuleApi, GspfModuleGui],
     auth: {
+        cookieDurationInMillis: 1000 * 60 * 60 * 24 * 30,
         secret: 'ThisIsATestSecretThisIsATestSecretThisIsATestSecret',
         cookieName: "screaminCookie",
-        redirectTo: false,
-        isSecure: false
-    }
+        isSecure: false,
+    },
+    defaultGuiRoute: "/public/auth/login.html"
 });
 
-process.on('unhandledRejection', (err)=>{
+process.on('unhandledRejection', (err) => {
     console.log(err);
     process.exit(1);
 })
 
-server.startup();;
+server.startup()
+    .catch((err) => {
+        console.log(err);
+        console.log("Error starting system");
+        process.exit(1);
+    })
