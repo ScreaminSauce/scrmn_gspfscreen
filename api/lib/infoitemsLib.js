@@ -13,7 +13,7 @@ class InfoLib {
     }
 
     getInfoItem(id){
-        return this._infoCollection.find({_id: ObjectId(id)});
+        return this._infoCollection.findOne({_id: ObjectId(id)});
     }
 
     createInfoItem(item){

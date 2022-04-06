@@ -10,7 +10,7 @@ body {
 
 .upcomingevents-main {
     font-family: 'Cairo', sans-serif;
-    background-image: url("../../static/images/StarTrek-Landscape.jpg");
+    background-image: url("../playfield-images/elvirahoh-playfield.jpg");
     background-color: rgba(255, 255, 255, 0.2);
     background-blend-mode: lighten;
     display: flex;
@@ -125,6 +125,7 @@ body {
                 .content-description {
                     font-size: 1.5rem;
                     padding: 50px;
+                    white-space: pre-wrap;
 
                     .event-image {
                         margin: 0 0 15px 15px;
@@ -191,7 +192,7 @@ body {
 
 .sponsors-main {
     font-family: 'Cairo', sans-serif;
-    background-image:url("../../static/images/AcDc-Landscape.jpg");
+    background-image:url("../playfield-images/godzilla-playfield.jpg");
     background-blend-mode: lighten;
     display: flex;
     flex-direction: column;
@@ -227,7 +228,7 @@ body {
 
 .infoitems-main {
     font-family: 'Cairo', sans-serif;
-    background-image:url("../../static/images/DemoMan.jpg");
+    background-image:url("../playfield-images/jp-playfield-2.jpg");
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -278,7 +279,7 @@ body {
         background-color:rgba(32, 28, 28, 0.95);
         color: rgb(255, 255, 255);
         font-size: 2rem;
-        
+        white-space: pre-wrap;
 
         img {
             max-width: 450px;
@@ -291,7 +292,7 @@ body {
 
 .tomorrowevents-main {
     font-family: 'Cairo', sans-serif;
-    background-image:url("../../static/images/IronMaiden.jpg");
+    background-image:url("../playfield-images/medival-madness-playfield.jpg");
     display: flex;
     flex-direction: column;
     height: 100%;

@@ -21,7 +21,7 @@ module.exports = Vue.component('infoitem-edit', {
             <input style="width:100%;" type="text" v-model="editedInfoItem.title">
         </td>
         <td>
-            <input style="width:100%; "type="text" v-model="editedInfoItem.message">
+            <textarea style="width:100%;" v-model="editedInfoItem.message"></textarea>
         </td>
         <td>
             <input style="width:100%;" type="text" v-model="editedInfoItem.imageUrl">

@@ -36,7 +36,7 @@ module.exports = Vue.component('tomorrowevents-main', {
             let today = momentTz().tz(TIMEZONE).format("dddd");
             
             let now = momentTz().tz(TIMEZONE);
-            if (now < momentTz("2019-05-17", "YYYY-MM-DD").tz(TIMEZONE)){
+            if (now < momentTz("2022-05-13", "YYYY-MM-DD").tz(TIMEZONE)){
                 console.log("Not quite showtime yet - coming soon!");
                 today = "Thursday";
             }

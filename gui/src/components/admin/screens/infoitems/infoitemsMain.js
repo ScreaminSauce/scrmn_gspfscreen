@@ -61,11 +61,21 @@ module.exports = Vue.component('infoitems-main', {
     template: `
     <div class="main-content container-fluid">
         <h4>Create Informational Item</h4>
-        <div class="create-infoItem">
-            <input type="text" class="col-2" placeholder="Title" v-model="newInfoItem.title">
-            <input type="text" class="col-7" placeholder="Message" v-model="newInfoItem.message">
-            <input type="text" class="col-2" placeholder="Image URL" v-model="newInfoItem.imageUrl">
-            <button class="btn btn-primary" v-on:click="createInfoItem">Save</button>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" placeholder="Title" v-model="newInfoItem.title">
+            </div>
+            <div class="form-group col-md-6">
+                <input type="text" class="form-control" placeholder="Image URL" v-model="newInfoItem.imageUrl">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-11">
+                <textarea type="text" class="form-control" placeholder="Message" v-model="newInfoItem.message"></textarea>
+            </div>
+            <div class="form-group col-md-1">
+                <button class="btn btn-primary" v-on:click="createInfoItem">Save</button>
+            </div>
         </div>
         <hr class="divider"/>
         <h4>Manage Informational Items</h4>

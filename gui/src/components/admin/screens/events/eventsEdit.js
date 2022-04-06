@@ -13,7 +13,7 @@ module.exports = Vue.component('events-edit', {
         editedEvent: Object,
         hour: Number,
         minute: Number,
-        day: {date: "05/17/2019", value: "Friday"}
+        day: {date: "05/13/2022", value: "Friday"}
     }},
     computed: {
         startTime: function(){
@@ -82,18 +82,20 @@ module.exports = Vue.component('events-edit', {
                     <input type="text" class="form-control"  placeholder="Event Name" v-model="editedEvent.name">
                 </div>
                 <div class="form-group col-md-4">
-                    <input type="text" class="form-control"  placeholder="Event Location" v-model="editedEvent.location">
+                    <input type="text" class="form-control" placeholder="Event Location" v-model="editedEvent.location">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-5">
-                    <input type="text" class="form-control"  placeholder="Description" v-model="editedEvent.description">
-                </div>
-                <div class="form-group col-md-5">
                     <input type="text" class="form-control"  placeholder="Image Url" v-model="editedEvent.imageUrl">
                 </div>
                 <div class="form-group col-md-2">
-                    <input type="text" class="form-control"  placeholder="Presenter" v-model="editedEvent.presenter">
+                    <input type="text" class="form-control" placeholder="Presenter" v-model="editedEvent.presenter">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <textarea class="form-control" placeholder="Description" v-model="editedEvent.description"></textarea>
                 </div>
             </div>
         </td>

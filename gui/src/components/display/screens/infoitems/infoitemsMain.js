@@ -1,6 +1,8 @@
 const Vue = require('vue/dist/vue');
 const ClientLib = require('../../../../../lib/clientLib');
-const momentTz = require('moment-timezone')
+const momentTz = require('moment-timezone');
+
+const TIME_PER_ITEM = 6000;
 
 module.exports = Vue.component('infoitems-main', {
     data: function(){
@@ -35,7 +37,7 @@ module.exports = Vue.component('infoitems-main', {
                     this.infoItems = items;
                 }
                 
-                this.showItems = setInterval(this.showRandomThing, 10000)
+                this.showItems = setInterval(this.showRandomThing, TIME_PER_ITEM)
                 this.activeItemIdx = Math.floor(Math.random() * Math.floor(this.infoItems.length));
                 this.activeItem = this.infoItems[this.activeItemIdx];
             })
@@ -71,9 +73,6 @@ module.exports = Vue.component('infoitems-main', {
                     <div class="time">{{time}}</div>
                 </div>
             </div>
-            <div class="content-description">
-                <img class="event-image" v-if="activeItem.imageUrl" v-bind:src="activeItem.imageUrl"></img>    
-                {{activeItem.message}}
-            </div>
+            <div class="content-description"><img class="event-image" v-if="activeItem.imageUrl" v-bind:src="activeItem.imageUrl"></img>{{activeItem.message}}</div>
         </div>`
 })

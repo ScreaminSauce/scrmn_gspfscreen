@@ -13,7 +13,7 @@ class AnnouncementsLib {
     }
 
     getAnnouncement(id){
-        return this._annCollection.find({_id: ObjectId(id)});
+        return this._annCollection.findOne({_id: ObjectId(id)});
     }
 
     createAnnouncement(ann){

@@ -12,14 +12,14 @@ module.exports = Vue.component('events-main', {
             selectedEditId: "",
             newEvent: {
                 name: "",
-                day: {date: "05/17/2019", value: "Friday"},
+                day: {date: "05/13/2022", value: "Friday"},
                 hour: "00",
                 minute: "00",
                 location: "",
                 description: "",
                 presenter: ""
             },
-            eventDays: [{date: "05/17/2019", value: "Friday"},{date: "05/18/2019", value: "Saturday"}, {date: "05/19/2019", value: "Sunday"}]
+            eventDays: [{date: "05/13/2022", value: "Friday"},{date: "05/14/2022", value: "Saturday"}, {date: "05/15/2022", value: "Sunday"}]
         }
     },
     computed: {
@@ -109,16 +109,16 @@ module.exports = Vue.component('events-main', {
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-9">
-                <input type="text" class="form-control"  placeholder="Description" v-model="newEvent.description">
-            </div>
             <div class="form-group col-md-2">
                 <input type="text" class="form-control"  placeholder="Presenter" v-model="newEvent.presenter">
+            </div>
+            <div class="form-group col-md-10">
+                <input type="text" class="form-control"  placeholder="Image Url" v-model="newEvent.imageUrl">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-11">
-                <input type="text" class="form-control"  placeholder="Image Url" v-model="newEvent.imageUrl">
+                <textarea class="form-control"  placeholder="Description" v-model="newEvent.description"></textarea>
             </div>
             <div class="form-group col-md-1">
                 <button class="btn btn-primary" v-on:click="createEvent">Save</button>

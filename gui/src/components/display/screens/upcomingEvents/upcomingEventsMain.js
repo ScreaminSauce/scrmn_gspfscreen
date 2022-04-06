@@ -5,8 +5,8 @@ const momentTz = require('moment-timezone')
 const upcomingEventCmpnt = require('./upcomingEvent');
 
 const TIMEZONE = "America/Los_Angeles";
-const TOTAL_EVENTS_TO_DISPLAY = 7;
-const ANNOUNCEMENT_INTERVAL_MS = 10000;
+const MAX_EVENTS_TO_DISPLAY = 7;
+const ANNOUNCEMENT_INTERVAL_MS = 8000;
 const EVENT_INTERVAL_MS = 5000;
 const EVENT_TIME_BUFFER_MINUTES = 10;
 
@@ -66,13 +66,13 @@ module.exports = Vue.component('upcomingevents-main', {
             })
         },
         updateEvents: function(){
-            // let cdate = momentTz('2019-05-17 14:01').tz(TIMEZONE);
+            // let cdate = momentTz('2022-05-13 14:01').tz(TIMEZONE);
             let cdate = momentTz().tz(TIMEZONE);
             return ClientLib.getEvents()
                 .then((results)=>{
                     results.forEach((evt)=>{
                         let evtdate = momentTz(evt.startTime).tz(TIMEZONE).add(EVENT_TIME_BUFFER_MINUTES, 'minutes');
-                        if (cdate < evtdate && (this.events.length < TOTAL_EVENTS_TO_DISPLAY)){
+                        if (cdate < evtdate && (this.events.length < MAX_EVENTS_TO_DISPLAY)){
                             this.events.push(evt)
                         }
                     })
@@ -100,7 +100,8 @@ module.exports = Vue.component('upcomingevents-main', {
         setNextActiveEvent: function(){
             this.$refs.evtList[this.activeEventIdx].setActive(false);
             this.activeEventIdx = this.findNextIdx(this.events, this.activeEventIdx);
-            this.activeEvent = this.events[this.activeEventIdx];            
+            this.activeEvent = this.events[this.activeEventIdx];
+            this.activeEvent.description = `${this.activeEvent.description}`;
             this.$refs.evtList[this.activeEventIdx].setActive(true);        
         },
         setNextActiveAnnouncement: function(){
@@ -157,10 +158,7 @@ module.exports = Vue.component('upcomingevents-main', {
                             <div>{{activeEvent.name}}</div>
                             <div>{{activeEvent.location}} - {{contentDisplayTime}}</div>
                         </div>
-                        <div class="content-description">
-                            <img class="event-image" v-if="activeEvent.imageUrl" v-bind:src="activeEvent.imageUrl"></img>    
-                            {{activeEvent.description}}
-                        </div>
+                        <div class="content-description"><img class="event-image" v-if="activeEvent.imageUrl" v-bind:src="activeEvent.imageUrl"></img>{{activeEvent.description}}</div>
                     </div>
                 </div>            
             </div>

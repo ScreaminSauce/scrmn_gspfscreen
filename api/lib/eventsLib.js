@@ -1,5 +1,5 @@
 'use strict';
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectId;
 const moment = require('moment');
 
 class EventsLib {
@@ -19,7 +19,7 @@ class EventsLib {
     }
 
     getEvent(id){
-        return this._eventsCollection.find({_id: ObjectId(id)});
+        return this._eventsCollection.findOne({_id: ObjectId(id)})
     }
 
     createEvent(event){
