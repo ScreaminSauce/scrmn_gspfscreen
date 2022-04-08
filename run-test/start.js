@@ -1,12 +1,12 @@
 'use strict';
-require('dotenv').config({path: "test/.env"});
+require('dotenv').config({path: "run-test/.env"});
 const ScreaminServer = require('@screaminsauce/screaminserver');
 const AuthModuleApi = require('@screaminsauce/scrmn_auth').api;
 const AuthModuleGui = require('@screaminsauce/scrmn_auth').gui;
-const GspfModuleApi = require("../").api;
-const GspfModuleGui = require("../").gui;
+const GspfModuleApi = require("..").api;
+const GspfModuleGui = require("..").gui;
 
-let server = new ScreaminServer({
+const server = new ScreaminServer({
     name: 'gspfScreenTest',
     options: {
         port: 3000,
