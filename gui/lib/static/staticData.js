@@ -4,8 +4,6 @@
 module.exports = {
     screenConfig: {
         "name": "default",
-        "startDate": "2022-05-13",
-        "endDate": "2022-05-13",
         "displayOrder": [{
                 "displayName": "Upcoming Events",
                 "componentName": "upcomingevents-main",
