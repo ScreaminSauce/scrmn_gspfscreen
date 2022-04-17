@@ -1,8 +1,9 @@
 const Vue = require('vue/dist/vue');
 const ClientLib = require('../../../../../lib/clientLib');
 const momentTz = require('moment-timezone');
+const styles = require('./styles.scss');
 
-const TIME_PER_ITEM = 6000;
+const TIME_PER_ITEM = 10000;
 
 module.exports = Vue.component('infoitems-main', {
     data: function(){
@@ -25,14 +26,19 @@ module.exports = Vue.component('infoitems-main', {
     mounted: function(){
         this.fetchInfoItems()
             .then((items)=>{
-                if (items.length == 0){
-                    this.infoItems = [
+                if (items.length < 2){
+                    this.infoItems.push(
                         {
                             title: "Did you know?", 
                             message: "The Lodi Golden State Pinball Festival started in 2018, but has a history dating back 7 years!",
-                            imageUrl: window.location.origin + "/public/gspfscreen/images/gspflogosm.jpg"
+                            imageUrl: "images/gspflogosm.jpg"
+                        },
+                        {
+                            title: "Pinball was officially invented in 1871",
+                            message: "Inventor Montague Redgrave from Ohio turned the century old Bagatelle game into the first pinball game.\n\nThe “Parlor Table Bagatelle” game got popular in bars, where high scores would earn you pride and maybe a free drink.",
+                            imageUrl: "images/gspflogosm.jpg"
                         }
-                    ]
+                    )
                 } else {
                     this.infoItems = items;
                 }
@@ -53,15 +59,11 @@ module.exports = Vue.component('infoitems-main', {
                 })
         },
         showRandomThing: function(){
-            let newItemShown = false;
-            while(!newItemShown){
-                let randomChoice = Math.floor(Math.random() * Math.floor(this.infoItems.length));
-                if ((randomChoice != this.activeItemIdx) || (this.infoItems.length == 1)){
-                    this.activeItemIdx = randomChoice;
-                    this.activeItem = this.infoItems[randomChoice];
-                    newItemShown = true;
-                }
-            }
+            
+
+            const randomChoice = Math.floor(Math.random() * Math.floor(this.infoItems.length));
+            this.activeItemIdx = randomChoice;
+            this.activeItem = this.infoItems[randomChoice];
         }
     },
     template: `

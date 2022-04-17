@@ -3,18 +3,23 @@ const ClientLib = require('../../../../../lib/clientLib');
 const Vue = require('vue/dist/vue');
 const momentTz = require('moment-timezone')
 const upcomingEventCmpnt = require('./upcomingEvent');
+const styles = require('./styles.scss');
 
 const TIMEZONE = "America/Los_Angeles";
 const MAX_EVENTS_TO_DISPLAY = 7;
 const EVENT_INTERVAL_MS = 5000;
 const EVENT_TIME_BUFFER_MINUTES = 10;
+const ANNOUNCEMENT_INTERVAL_MS = 3000;
 
 module.exports = Vue.component('upcomingevents-main', {
     data: function(){
         return {
             events: [],
             activeEventIdx: 0,
-            activeEvent: {}
+            activeEvent: {},
+            announcements: [],
+            activeAnnIdx: 0,
+            activeAnn: {}
         }
     },
     computed: {
@@ -28,11 +33,25 @@ module.exports = Vue.component('upcomingevents-main', {
         time: function(){
             let time = momentTz().tz(TIMEZONE).format("h:mm a");
             return time;
-        }
+        },
+        annClassObj: function(){
+            return {
+                annMessage: true,
+                annInformational: this.activeAnn.type == "Informational",
+                annWarning: this.activeAnn.type == "Warning",
+                annUrgent: this.activeAnn.type == "Urgent",
+            }
+       },
     },
     mounted: function(){
-        this.displayConfig = { events: {interval: EVENT_INTERVAL_MS} };
-        return this.updateEvents()
+        this.fetchDisplayConfig()
+            .then((config)=>{
+                this.displayConfig = config;
+                return this.updateEvents();
+            })        
+            .then(()=>{
+                return this.updateAnnouncements();
+            })
             .then(()=>{
                 return this.startEventMachine();
             })
@@ -42,7 +61,10 @@ module.exports = Vue.component('upcomingevents-main', {
     },
     methods: {
         fetchDisplayConfig: function(){
-            return Promise.resolve()
+            return Promise.resolve({
+                announcements:{interval: ANNOUNCEMENT_INTERVAL_MS},
+                events: {interval: EVENT_INTERVAL_MS}
+            })
         },
         updateEvents: function(){
             // let cdate = momentTz('2022-05-13 14:01').tz(TIMEZONE);
@@ -60,6 +82,15 @@ module.exports = Vue.component('upcomingevents-main', {
                     console.log("Error getting events.", err);
                 })
         },
+        updateAnnouncements: function(){
+            return ClientLib.getAnnouncements()
+                .then((results)=>{
+                    results.forEach((ann)=>{this.announcements.push(ann)})
+                })
+                .catch((err)=>{
+                    console.log("Error getting announcements.", err);
+                })
+        },
         findNextIdx: function(list, currentIdx){
             if (currentIdx == (list.length - 1)){
                 return 0;
@@ -74,6 +105,10 @@ module.exports = Vue.component('upcomingevents-main', {
             this.activeEvent.description = `${this.activeEvent.description}`;
             this.$refs.evtList[this.activeEventIdx].setActive(true);        
         },
+        setNextActiveAnnouncement: function(){
+            this.activeAnnIdx = this.findNextIdx(this.announcements, this.activeAnnIdx);
+            this.activeAnn = this.announcements[this.activeAnnIdx];    
+        },
         startEventMachine: function(){
             
             //Events
@@ -82,12 +117,21 @@ module.exports = Vue.component('upcomingevents-main', {
                 this.$refs.evtList[this.activeEventIdx].setActive(true);        
                 this._eventsMachine = setInterval(this.setNextActiveEvent, this.displayConfig.events.interval);
             }
+
+            //Announcements
+            if (this.announcements.length > 0){
+                this.activeAnn = this.announcements[this.activeAnnIdx];
+                this._annMachine = setInterval(this.setNextActiveAnnouncement, this.displayConfig.announcements.interval);
+            }
             
             return Promise.resolve();
         },
         stopEventMachine: function(){
             if (this._eventsMachine){
                 clearInterval(this._eventsMachine);
+            }
+            if (this._annMachine){
+                clearInterval(this._annMachine);
             }
         }
     },
@@ -104,7 +148,7 @@ module.exports = Vue.component('upcomingevents-main', {
                     <div class="header">
                         <div><img class="gspf-header-image" src="images/gspflogosm.jpg"></div>
                         <div class="title">Upcoming Events</div>
-                        <div class="spacer"></div>
+                        
                         <div class="date-time">
                             <div class="date">{{date}}</div>
                             <div class="time">{{time}}</div>
@@ -118,6 +162,12 @@ module.exports = Vue.component('upcomingevents-main', {
                         <div class="content-description"><img class="event-image" v-if="activeEvent.imageUrl" v-bind:src="activeEvent.imageUrl"></img>{{activeEvent.description}}</div>
                     </div>
                 </div>            
+            </div>
+            <div class="footer">
+                <div v-if="announcements.length > 0" class="announcement">
+                    <div>Announcements</div>
+                    <div v-bind:class="annClassObj">{{activeAnn.message}}</div>
+                </div>
             </div>
         </div>
     `

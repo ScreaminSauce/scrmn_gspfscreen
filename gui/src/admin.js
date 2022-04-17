@@ -3,7 +3,7 @@ const ClientLib = require('../lib/clientLib');
 const Vue = require('vue/dist/vue');
 
 //Used for webpack bundling and component registration.
-const myCss = require('./style/gspfScreenAdmin.scss');
+const styles = require('./components/admin/admin-styles.scss');
 const annMainCmpnt = require('./components/admin/screens/announcements/annMain');
 const eventsMainCmpnt = require('./components/admin/screens/events/eventsMain');
 const infoItemsMainCmpnt = require('./components/admin/screens/infoitems/infoitemsMain');

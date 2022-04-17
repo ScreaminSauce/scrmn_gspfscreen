@@ -4,6 +4,7 @@ const ClientLib = require('../../../../../lib/clientLib');
 const momentTz = require('moment-timezone');
 const tomorrowEventCmpnt = require('./tomorrowEvent');
 const TIMEZONE = "America/Los_Angeles"
+const styles = require('./styles.scss');
 
 module.exports = Vue.component('tomorrowevents-main', {
     data: function(){

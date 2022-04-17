@@ -1,12 +1,11 @@
 {
     "name": "@screaminsauce/scrmn_gspfscreen",
-    "version": "2.0.3",
+    "version": "3.0.0",
     "description": "A module used for displaying informational screens for the GSPF.",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "test-dynamic": "node run-test/start.js | bunyan",
-        "test-static": "node run-static/start.js | bunyan"
+        "test-dynamic": "node run-test/start.js | bunyan"
     },
     "author": "Jeff Claybaugh",
     "license": "ISC",
@@ -17,7 +16,6 @@
         "clean-webpack-plugin": "^3.0.0",
         "copy-webpack-plugin": "^10.2.4",
         "css-loader": "^6.7.0",
-        "dotenv-webpack": "7.1.0",
         "file-loader": "^6.2.0",
         "joi": "^17.0.6",
         "lodash": "^4.17.21",

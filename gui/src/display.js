@@ -1,13 +1,12 @@
 'use strict';
 const ClientLib = require('../lib/clientLib');
 const Vue = require('vue/dist/vue');
-const myCss = require('./style/gspfScreenDisplay.scss');
+const styles = require('./components/display/display-styles.scss');
 
 //Current Screens created are loaded here - Required here for webpack to load 'em
 const upcomingEventsMain = require('./components/display/screens/upcomingEvents/upcomingEventsMain');
 const sponsorsMain = require('./components/display/screens/sponsors/sponsorsMain');
 const infoitemsMain = require('./components/display/screens/infoitems/infoitemsMain');
-const tomorrowEventsMain = require('./components/display/screens/tomorrowEvents/tomorrowEventsMain');
 
 module.exports = new Vue({
     el: "#app",

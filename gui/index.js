@@ -4,7 +4,6 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const Dotenv = require('dotenv-webpack');
 
 class GuiBuilder {
     constructor(outputFolder) {
@@ -35,8 +34,7 @@ class GuiBuilder {
                         }
                     ]
                 }),
-                new MiniCssExtractPlugin(),
-                new Dotenv()
+                new MiniCssExtractPlugin()
             ]
         }
     }
