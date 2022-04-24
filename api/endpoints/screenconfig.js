@@ -9,7 +9,7 @@ module.exports = (logger, basePath, dbConns)=>{
             { 
                 "displayName" : "Upcoming Events", 
                 "componentName" : "upcomingevents-main", 
-                "durationInSeconds" : "30" //30 
+                "durationInSeconds" : "30"
             }, 
             { 
                 "displayName" : "Sponsors", 

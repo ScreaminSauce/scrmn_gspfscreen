@@ -9,7 +9,7 @@ const TIMEZONE = "America/Los_Angeles";
 const MAX_EVENTS_TO_DISPLAY = 7;
 const EVENT_INTERVAL_MS = 5000;
 const EVENT_TIME_BUFFER_MINUTES = 10;
-const ANNOUNCEMENT_INTERVAL_MS = 3000;
+const ANNOUNCEMENT_INTERVAL_MS = 5000;
 
 module.exports = Vue.component('upcomingevents-main', {
     data: function(){
