@@ -28,10 +28,9 @@ class InfoLib {
             "$set": updateInfo
         }
         return this._infoCollection.findOneAndUpdate({"_id":ObjectId(id)}, ops, { returnDocument: 'after' })
-        .then((result)=>{
-            return result.value;
-        })
-
+            .then((result)=>{
+                return result.value;
+            })
     }
 
     deleteInfoItem(id){

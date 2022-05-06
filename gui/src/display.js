@@ -7,20 +7,23 @@ const styles = require('./components/display/display-styles.scss');
 const upcomingEventsMain = require('./components/display/screens/upcomingEvents/upcomingEventsMain');
 const sponsorsMain = require('./components/display/screens/sponsors/sponsorsMain');
 const infoitemsMain = require('./components/display/screens/infoitems/infoitemsMain');
+const displayUrl = require('./components/display/screens/displayUrl/displayUrl');
 
 module.exports = new Vue({
     el: "#app",
     data: function () {
         return {
             currentDisplayCmpnt: String,
+            currentDisplayConfig: Object
         }
     },
     mounted: function () {
-        this.fetchScreenConfig("default")
+        this.fetchScreenConfig()
             .then((config) => {
                 this.displayOrder = config.displayOrder;
-                //this.displayOrder = [{componentName:"tomorrowevents-main", durationInSeconds:60}];
-                return this.startDaMachine();
+                //[{componentName:"tomorrowevents-main", durationInSeconds:60}];
+
+                this.startDaNewMachine();
             })
             .catch((err) => {
                 console.log("Error starting display.js", err);
@@ -34,37 +37,41 @@ module.exports = new Vue({
                 })
         },
         findNextIdx: function (list, currentIdx) {
-            if (currentIdx == (list.length - 1)) {
+            if (currentIdx === (list.length - 1)) {
                 return 0;
             } else {
                 return currentIdx + 1;
             }
         },
-        startDaMachine: function () {
-            console.log("Da machine has been started!");
-            if (this.displayOrder.length > 1) {
-                this.loadNextScreen(this.displayOrder[0], this.displayOrder[1]);
-            } else if (this.displayOrder.length == 1) {
-                this.currentDisplayCmpnt = this.displayOrder[0].componentName;
+        startDaNewMachine: function(){
+            if(this.displayOrder.length > 0){
+                this.loadScreen(this.displayOrder[0]);
+            } else {
+                console.log("No display configuration set - reloading in 30 seconds.")
                 setTimeout(function(){
                     window.location.reload();
-                }, this.displayOrder[0].durationInSeconds * 1000);
-            } else {
-                console.log("What kinda game you playing? No screens are set!");
+                }, 30 * 1000);
             }
         },
-        loadNextScreen: function (fromObj, toObj) {
-            if (fromObj == toObj) {
-                window.location.reload();
+        loadScreen: function(screenConfig, resetLoader){
+            if (resetLoader){
+                this.fetchScreenConfig()
+                    .then((config)=>{
+                        this.displayOrder = config.displayOrder;
+                        this.startDaNewMachine();
+                    })
             } else {
-                this.currentDisplayCmpnt = fromObj.componentName;
-                setTimeout(() => {
-                    this.loadNextScreen(toObj, this.displayOrder[this.findNextIdx(this.displayOrder, this.displayOrder.indexOf(toObj))])
-                }, fromObj.durationInSeconds * 1000)
+                this.currentDisplayCmpnt = screenConfig.componentName;
+                this.currentDisplayConfig = screenConfig.config || {};
+                const nextScreenConfigIdx = this.findNextIdx(this.displayOrder, this.displayOrder.indexOf(screenConfig));
+                const nextScreenConfig = this.displayOrder[nextScreenConfigIdx];
+                setTimeout(()=>{
+                    this.loadScreen(nextScreenConfig, nextScreenConfigIdx === 0);
+                }, screenConfig.durationInSeconds * 1000)
             }
         }
     },
     template: `
-        <component v-bind:is="currentDisplayCmpnt"></component>
+        <component v-bind:is="currentDisplayCmpnt" :displayConfig="currentDisplayConfig"></component>
     `
 })

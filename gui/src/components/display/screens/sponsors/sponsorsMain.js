@@ -2,6 +2,7 @@ const Vue = require('vue/dist/vue');
 const styles = require('./styles.scss');
 
 module.exports = Vue.component('sponsors-main', {
+    props: ['displayConfig'],
     data: function(){
         return {
             images: [

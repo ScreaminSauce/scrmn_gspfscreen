@@ -6,6 +6,7 @@ const styles = require('./styles.scss');
 const TIME_PER_ITEM = 10000;
 
 module.exports = Vue.component('infoitems-main', {
+    props: ['displayConfig'],
     data: function () {
         return {
             activeItemIdx: null,

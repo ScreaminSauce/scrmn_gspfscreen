@@ -4,9 +4,8 @@ const Boom = require('@hapi/boom');
 const InfoLib = require('../lib/infoitemsLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let callinfoLib = function(methodName, onError, ...args){
-        let db = dbConns.getConnection('gspfscreen');
-        let iLib = new InfoLib(logger, dbConns);
+    const callinfoLib = function(methodName, onError, ...args){
+        const iLib = new InfoLib(logger, dbConns);
         return iLib[methodName].call(iLib, ...args)
             .catch((err)=>{
                 if (onError){

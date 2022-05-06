@@ -43,11 +43,18 @@ class ClientLib {
             }, ClientLib.handleError)
     }
 
+    static updateScreenConfig(newConfig){
+        return axios.put(`${originBase}/api/gspfscreen/screenconfig`, newConfig)
+            .then((result)=>{
+                return result.data;
+            }, ClientLib.handleError)
+    }
+
     static getAnnouncements(){
         return axios.get(`${originBase}/api/gspfscreen/announcements`)
-        .then((result)=>{
-            return result.data;
-        }, ClientLib.handleError)
+            .then((result)=>{
+                return result.data;
+            }, ClientLib.handleError)
     }
 
     static createAnnouncement(annInfo){

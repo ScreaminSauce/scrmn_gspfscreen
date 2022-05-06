@@ -12,6 +12,7 @@ const EVENT_TIME_BUFFER_MINUTES = 10;
 const ANNOUNCEMENT_INTERVAL_MS = 5000;
 
 module.exports = Vue.component('upcomingevents-main', {
+    props: ['displayConfig'],
     data: function(){
         return {
             events: [],
@@ -44,11 +45,7 @@ module.exports = Vue.component('upcomingevents-main', {
        },
     },
     mounted: function(){
-        this.fetchDisplayConfig()
-            .then((config)=>{
-                this.displayConfig = config;
-                return this.updateEvents();
-            })        
+        this.updateEvents()
             .then(()=>{
                 return this.updateAnnouncements();
             })
@@ -60,12 +57,6 @@ module.exports = Vue.component('upcomingevents-main', {
             })
     },
     methods: {
-        fetchDisplayConfig: function(){
-            return Promise.resolve({
-                announcements:{interval: ANNOUNCEMENT_INTERVAL_MS},
-                events: {interval: EVENT_INTERVAL_MS}
-            })
-        },
         updateEvents: function(){
             // let cdate = momentTz('2022-05-13 14:01').tz(TIMEZONE);
             let cdate = momentTz().tz(TIMEZONE);
@@ -115,13 +106,13 @@ module.exports = Vue.component('upcomingevents-main', {
             if (this.events.length > 0){
                 this.activeEvent = this.events[this.activeEventIdx];            
                 this.$refs.evtList[this.activeEventIdx].setActive(true);        
-                this._eventsMachine = setInterval(this.setNextActiveEvent, this.displayConfig.events.interval);
+                this._eventsMachine = setInterval(this.setNextActiveEvent, EVENT_INTERVAL_MS);
             }
 
             //Announcements
             if (this.announcements.length > 0){
                 this.activeAnn = this.announcements[this.activeAnnIdx];
-                this._annMachine = setInterval(this.setNextActiveAnnouncement, this.displayConfig.announcements.interval);
+                this._annMachine = setInterval(this.setNextActiveAnnouncement, ANNOUNCEMENT_INTERVAL_MS);
             }
             
             return Promise.resolve();

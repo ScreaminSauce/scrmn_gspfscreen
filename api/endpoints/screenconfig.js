@@ -1,25 +1,29 @@
 'use strict';
+const Joi = require('joi');
+const ScreenConfigLib = require('../lib/screenConfigLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let defaultConfig = { 
-        "name" : "default",
-        "startDate": "2022-05-13",
-        "endDate": "2022-05-13",
+    const defaultConfig = { 
         "displayOrder" : [ 
+            {
+                "componentName" : "display-url", 
+                "config":{url:"https://www.neverdrains.com/gspf2022/standingsDisplay.php", count: 1},
+                "durationInSeconds" : 30
+            },
             { 
-                "displayName" : "Upcoming Events", 
                 "componentName" : "upcomingevents-main", 
-                "durationInSeconds" : "30"
+                "config":{test:true, count: 1},
+                "durationInSeconds" : 30
             }, 
             { 
-                "displayName" : "Sponsors", 
                 "componentName" : "sponsors-main", 
-                "durationInSeconds" : "10"  
+                "config":{displayurl:"https://blah", count: 2},
+                "durationInSeconds" : 10  
             },
             {
-                "displayName":"Informational Screens",
                 "componentName":"infoitems-main",
-                "durationInSeconds": "30" //20
+                "config":{test:false, count: 3},
+                "durationInSeconds": 30 //20
             },
             // {
             //     "displayName": "Tomorrows Events",
@@ -32,10 +36,33 @@ module.exports = (logger, basePath, dbConns)=>{
             method: 'GET',
             path: basePath + "/screenconfig",
             handler: (request, h) => {
-                return Promise.resolve(defaultConfig);
+                const configLib = new ScreenConfigLib(logger, dbConns)
+                return configLib.getConfig();
             },
             config: {
                 auth: false
+            }
+        },
+        {
+            method: 'PUT',
+            path: basePath + "/screenconfig",
+            handler: (request, h) => {
+                const configLib = new ScreenConfigLib(logger, dbConns)
+                return configLib.updateConfig(request.payload)
+                    .catch((err)=>{
+                        logger.error({err}, "error!");
+                        return Promise.reject(err);
+                    })
+            },
+            config: {
+                validate: {
+                    payload: Joi.object().allow()
+                },
+                auth: {
+                    access: {
+                        scope: ["+gspfscreen-admin"]
+                    }
+                }
             }
         }
     ]

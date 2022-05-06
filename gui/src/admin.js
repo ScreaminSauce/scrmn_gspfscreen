@@ -7,6 +7,7 @@ const styles = require('./components/admin/admin-styles.scss');
 const annMainCmpnt = require('./components/admin/screens/announcements/annMain');
 const eventsMainCmpnt = require('./components/admin/screens/events/eventsMain');
 const infoItemsMainCmpnt = require('./components/admin/screens/infoitems/infoitemsMain');
+const screenConfigMainCmpnt = require('./components/admin/screens/screenconfig/screenConfigMain');
 
 module.exports = new Vue({
     el: "#app",
@@ -63,6 +64,9 @@ module.exports = new Vue({
                     </li>
                     <li class="nav-item" v-bind:class="{active: currentTab=='infoitems'}">
                         <a class="nav-link" v-on:click="changeTab('infoitems')">Informational</a>
+                    </li>
+                    <li class="nav-item" v-bind:class="{active: currentTab=='screenconfig'}">
+                        <a class="nav-link" v-on:click="changeTab('screenconfig')">Config</a>
                     </li>
                 </ul>
                 <div>

@@ -4,9 +4,8 @@ const Boom = require('@hapi/boom');
 const EventsLib = require('../lib/eventsLib');
 
 module.exports = (logger, basePath, dbConns)=>{
-    let callEventsLib = function(methodName, onError, ...args){
-        let db = dbConns.getConnection('gspfscreen');
-        let eLib = new EventsLib(logger, dbConns);
+    const callEventsLib = function(methodName, onError, ...args){
+        const eLib = new EventsLib(logger, dbConns);
         return eLib[methodName].call(eLib, ...args)
             .catch((err)=>{
                 if (onError){
